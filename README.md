@@ -29,9 +29,25 @@ that fixes its own mistakes before you ever see them.
 
 ---
 
+## What it does
+
+- **Cook from what you have.** Type the ingredients in your fridge (paneer, palak, toor
+  dal…) and get Indian recipes ranked by how much of them you already own.
+- **Never with what you can't.** Every recipe is checked against 9 allergen groups, your
+  diet (vegan, vegetarian, pescatarian, gluten-free, dairy-free) and your time limit.
+  When the AI gets it wrong, SafePlate tells it exactly what's wrong and makes it fix it.
+- **Plan the week.** 3–7 day dinner plans that rotate regions (Punjabi, South Indian,
+  Kerala, Mumbai street food, Hyderabadi) with one merged shopping list.
+- **Remembers you.** Pantry, a rated cookbook that shapes future suggestions, history,
+  serving scaler, Markdown export, light and dark themes.
+- **Works without an API key.** A curated library of 14 Indian dishes runs through the
+  exact same safety pipeline, so anyone can try it.
+
+## The problem it solves
+
 LLM recipe generators usually work one of two ways. Some (a) make a single call and
 trust whatever comes back. That's cheap, but nothing stops the model from suggesting
-pine-nut pesto to someone with a nut allergy. Others (b) ask the model to "double-check
+Paneer Butter Masala (made with cashews) to someone with a nut allergy. Others (b) ask the model to "double-check
 itself", which uses another call to the same component that made the mistake. This
 project puts a **deterministic verification layer** between the model and the user. A
 rule-based checker inspects every ingredient. Violations go back to the model as
@@ -56,7 +72,7 @@ flowchart LR
     F --> E
     E --> G["Shopping list · scaler ·\ncookbook · export"]
 
-    H["FastAPI backend"] --> I["Web app\n(vanilla JS, no build)"]
+    H["FastAPI backend"] --> I["Landing page + app\n(vanilla JS, no build)"]
     H -.->|"/api/*"| J["SQLite\npantry · cookbook · history"]
 ```
 
@@ -218,8 +234,8 @@ replaces the model with a scripted **faulty model**. It returns real library rec
 with probability *p* it slips a nut ingredient into each one (starting only from the 10
 library dishes that are nut-free to begin with). 80% of the injected
 ingredients are *detectable* (named directly, e.g. "cashews"). 20% are *hidden* inside
-compound ingredients ("korma paste", "shahi gravy base", "chikki crumble", "pesto") that the checker can't see
-into. When told about a flagged recipe, the model fixes it 80% of the time. It never
+compound ingredients ("korma paste", "shahi gravy base", "chikki crumble", "pesto") that
+the checker can't see into. When told about a flagged recipe, the model fixes it 80% of the time. It never
 fixes what it wasn't told about.
 
 **This is a simulation with stated assumptions, not a measurement of any real model.**
@@ -241,8 +257,8 @@ stream (paired).
 
 <p align="center"><img src="results/self_correction_sim.png" alt="Unsafe recipes shown and recipes delivered, by configuration" width="100%"></p>
 
-**Reading it:** the loop cuts unsafe output by **about 5×** (4.7–5.9×) at every error rate while
-delivering **98–99.7%** of requested recipes. Check-and-drop alone is about as safe, but
+**Reading it:** the loop cuts unsafe output by **about 5×** (4.7–5.9×) at every error
+rate while delivering **98–99.7%** of requested recipes. Check-and-drop alone is about as safe, but
 at a 50% error rate it throws away 40% of results. The retries are what make the safety
 layer usable.
 
@@ -302,8 +318,8 @@ the test set:
 
 ## Future work
 
-**Compound-ingredient expansion.** Decompose ingredients like "korma paste" or "pesto" into their
-components before checking, using a curated table first and possibly an LLM-proposed
+**Compound-ingredient expansion.** Decompose ingredients like "korma paste" or "pesto"
+into their components before checking, using a curated table first and possibly an LLM-proposed
 decomposition that is itself verified. The simulation says this is the highest-leverage
 improvement available.
 
@@ -322,8 +338,11 @@ input.
 Two pages, served by `safeplate/server.py` (FastAPI) from `safeplate/web/` (plain
 HTML/CSS/JS, no framework, no build step):
 
-- **`/`: landing page** with a live demo that calls the real API, a how-it-works
-  section, and the evaluation results drawn as charts.
+- **`/`: landing page.** The hero is an animated steel thali (six filled katoris
+  around a bowl of rice) with floating cards that act out the product in three seconds:
+  your fridge goes in, *Paneer Butter Masala* gets struck out for containing cashews, and
+  a verified nut-free *Palak Paneer* takes its place. Below it: a live demo that calls
+  the real API, how it works, the evaluation results as charts, and the feature set.
 - **`/app`: the app.** An **Overview** dashboard (activity, issues caught, favourite
   regions), **Discover** with a live *agent trace* showing each step of the loop,
   **Meal Planner**, **Cookbook**, **Pantry** and **History**. Recipe details open in a
@@ -368,10 +387,10 @@ on redeploy.
 python -m pytest -q
 ```
 
-40 tests: serving scaling, 20 allergen/diet edge cases (the two regressions above and six
-Indian ingredient names such as *rava*, *kaju* and *curd*), the self-correction loop with scripted model responses (retry and give-up
-paths), shopping-list merging, storage including migrating older databases, and every
-API endpoint.
+40 tests: serving scaling, 20 allergen/diet edge cases (the two regressions above and
+six Indian ingredient names such as *rava*, *kaju* and *curd*), the self-correction loop
+with scripted model responses (retry and give-up paths), shopping-list merging, storage
+including migrating older databases, and every API endpoint.
 
 ## Acknowledgements
 
