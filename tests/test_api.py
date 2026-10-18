@@ -6,15 +6,15 @@ from fastapi.testclient import TestClient
 
 @pytest.fixture
 def client(tmp_path, monkeypatch):
-    monkeypatch.setenv("RECIPE_AGENT_HOME", str(tmp_path))
+    monkeypatch.setenv("SAFEPLATE_HOME", str(tmp_path))
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    from recipe_agent.server import app
+    from safeplate.server import app
 
     return TestClient(app)
 
 
 def test_index_and_status(client):
-    assert "Recipe Agent" in client.get("/").text
+    assert "SafePlate" in client.get("/").text
     assert client.get("/api/status").json()["demo"] is True
 
 

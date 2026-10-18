@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "recipe-agent"
+name = "safeplate"
 version = "1.0.0"
 description = "AI recipe assistant with constraint self-checking, pantry tracking, a cookbook and meal planning"
 requires-python = ">=3.10"
@@ -22,10 +22,10 @@ web = ["streamlit>=1.35"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-recipe-agent = "recipe_agent.cli:main"
+safeplate = "safeplate.cli:main"
 
 [tool.setuptools]
-packages = ["recipe_agent"]
+packages = ["safeplate"]
 
 [tool.setuptools.package-data]
-recipe_agent = ["web/*"]
+safeplate = ["web/*"]

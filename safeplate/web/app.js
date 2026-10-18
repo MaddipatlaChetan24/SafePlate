@@ -1,4 +1,4 @@
-/* Recipe Agent web client — vanilla JS, no build step. */
+/* SafePlate web client — vanilla JS, no build step. */
 
 const ICONS = {
   sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
@@ -131,11 +131,11 @@ function go(view) {
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  try { localStorage.setItem("ra-theme", theme); } catch {}
+  try { localStorage.setItem("sp-theme", theme); } catch {}
 }
 function initTheme() {
   let theme = null;
-  try { theme = localStorage.getItem("ra-theme"); } catch {}
+  try { theme = localStorage.getItem("sp-theme"); } catch {}
   const params = new URLSearchParams(location.search);
   theme = params.get("theme") || theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   document.documentElement.dataset.theme = theme;

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: recipe-agent
+    name: safeplate
     runtime: docker
     plan: free
     healthCheckPath: /api/status

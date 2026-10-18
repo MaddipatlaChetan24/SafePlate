@@ -17,11 +17,11 @@ import tempfile
 import time
 from pathlib import Path
 
-from recipe_agent.agent import SYSTEM_PROMPT
-from recipe_agent.models import Preferences, RecipeSet
-from recipe_agent.safety import check_recipe
-from recipe_agent.samples import LIBRARY, match_library
-from recipe_agent.shopping import shopping_list
+from safeplate.agent import SYSTEM_PROMPT
+from safeplate.models import Preferences, RecipeSet
+from safeplate.safety import check_recipe
+from safeplate.samples import LIBRARY, match_library
+from safeplate.shopping import shopping_list
 
 
 def timeit(fn, n: int) -> tuple[float, float]:
@@ -36,11 +36,11 @@ def timeit(fn, n: int) -> tuple[float, float]:
 
 def main(out_dir: Path = Path("results")):
     out_dir.mkdir(exist_ok=True)
-    os.environ["RECIPE_AGENT_HOME"] = tempfile.mkdtemp()
+    os.environ["SAFEPLATE_HOME"] = tempfile.mkdtemp()
     os.environ.pop("OPENAI_API_KEY", None)
     from fastapi.testclient import TestClient
 
-    from recipe_agent.server import app
+    from safeplate.server import app
 
     client = TestClient(app)
     strict = Preferences(diet="vegan", allergies=["nuts", "dairy", "gluten", "egg", "shellfish", "fish", "soy", "sesame"], max_minutes=30)

@@ -1,4 +1,4 @@
-"""Held-out benchmark for the allergen / diet matcher in recipe_agent/safety.py.
+"""Held-out benchmark for the allergen / diet matcher in safeplate/safety.py.
 
 The cases below were written AFTER safety.py was finished and were not used to
 tune it — the rules were frozen before this file was run for the first time.
@@ -20,7 +20,7 @@ import csv
 import re
 from pathlib import Path
 
-from recipe_agent import safety
+from safeplate import safety
 
 # (ingredient, kind, value, should_flag, note)
 CASES: list[tuple[str, str, str, bool, str]] = [

@@ -5,14 +5,14 @@ from __future__ import annotations
 import streamlit as st
 from dotenv import load_dotenv
 
-from recipe_agent.agent import RecipeAgent
-from recipe_agent.export import plan_markdown, recipe_markdown, slugify
-from recipe_agent.models import Preferences, Recipe
-from recipe_agent.shopping import shopping_list, shopping_list_text
-from recipe_agent.storage import Store
+from safeplate.agent import RecipeAgent
+from safeplate.export import plan_markdown, recipe_markdown, slugify
+from safeplate.models import Preferences, Recipe
+from safeplate.shopping import shopping_list, shopping_list_text
+from safeplate.storage import Store
 
 load_dotenv()
-st.set_page_config(page_title="Recipe Agent", page_icon="🍳", layout="wide")
+st.set_page_config(page_title="SafePlate", page_icon="🍳", layout="wide")
 
 
 @st.cache_resource
@@ -84,7 +84,7 @@ with st.sidebar:
     st.caption(", ".join(pantry) or "Empty")
 
 agent = RecipeAgent()
-st.title("🍳 Recipe Agent")
+st.title("🍳 SafePlate")
 if agent.demo:
     st.warning("Demo mode: no OPENAI_API_KEY found, so recipes are placeholders. Add a key to `.env` for real results.")
 

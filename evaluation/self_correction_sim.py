@@ -30,9 +30,9 @@ import csv
 import random
 from pathlib import Path
 
-from recipe_agent.agent import RecipeAgent
-from recipe_agent.models import Ingredient, Preferences, RecipeSet
-from recipe_agent.samples import LIBRARY
+from safeplate.agent import RecipeAgent
+from safeplate.models import Ingredient, Preferences, RecipeSet
+from safeplate.samples import LIBRARY
 
 DETECTABLE = ["cashews", "walnuts", "almonds", "pistachios"]
 HIDDEN = ["pesto", "praline", "marzipan glaze", "satay dressing"]  # all contain nuts; none say "nut"

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🍳 Recipe Agent
+# 🍽️ SafePlate
 
 Tell it what's in your fridge — get recipes verified against your allergies and diet by a
 deterministic checker, with an LLM that fixes its own mistakes before you ever see them.
@@ -21,7 +21,7 @@ deterministic checker, with an LLM that fixes its own mistakes before you ever s
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/website_preview_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/website_preview_light.png">
-  <img src="docs/website_preview_dark.png" alt="Recipe Agent web app: ingredient input, live agent trace, verified recipe cards and shopping list" width="100%">
+  <img src="docs/website_preview_dark.png" alt="SafePlate web app: ingredient input, live agent trace, verified recipe cards and shopping list" width="100%">
 </picture>
 
 </div>
@@ -87,8 +87,8 @@ the checker is known to miss.
 ## Setup
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/recipe-agent.git
-cd recipe-agent
+git clone https://github.com/YOUR-USERNAME/safeplate.git
+cd safeplate
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env     # optional: add OPENAI_API_KEY; without it the app runs in demo mode
@@ -101,7 +101,7 @@ tried and tested for free. The sidebar shows which mode is active.
 ## Repository layout
 
 ```
-recipe_agent/
+safeplate/
   agent.py        generate → verify → self-correct loop, meal planner
   safety.py       deterministic allergen / diet / time checker
   models.py       Pydantic models: Recipe, Ingredient, Preferences, MealPlan
@@ -124,12 +124,12 @@ tests/                    32 pytest tests (core logic + every API endpoint)
 
 ```bash
 # Web app → http://127.0.0.1:8000  (API docs at /docs)
-python -m recipe_agent serve
+python -m safeplate serve
 
 # CLI
-python -m recipe_agent suggest -i "chicken, garlic, lemon" --allergies nuts --time 30
-python -m recipe_agent plan --days 5 --use-pantry --export exports/
-python -m recipe_agent cookbook list
+python -m safeplate suggest -i "chicken, garlic, lemon" --allergies nuts --time 30
+python -m safeplate plan --days 5 --use-pantry --export exports/
+python -m safeplate cookbook list
 
 # Reproduce every number in this README
 python -m evaluation.allergen_benchmark
@@ -315,8 +315,8 @@ input.
 
 ## Frontend + backend app
 
-`recipe_agent/web/` (plain HTML/CSS/JS, no framework, no build step) is served by
-`recipe_agent/server.py` (FastAPI). Every view fetches live data from the API, and the
+`safeplate/web/` (plain HTML/CSS/JS, no framework, no build step) is served by
+`safeplate/server.py` (FastAPI). Every view fetches live data from the API, and the
 **agent trace** bar on the Discover page shows each step of the loop as it runs:
 ingredients read, recipes generated, issues caught and self-corrected, verified.
 

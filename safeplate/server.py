@@ -1,4 +1,4 @@
-"""FastAPI backend for the web app.  Run with:  recipe-agent serve"""
+"""FastAPI backend for the web app.  Run with:  safeplate serve"""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from .storage import Store
 
 load_dotenv()
 WEB_DIR = Path(__file__).parent / "web"
-app = FastAPI(title="Recipe Agent", version="1.0.0")
+app = FastAPI(title="SafePlate", version="1.0.0")
 app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
 
 

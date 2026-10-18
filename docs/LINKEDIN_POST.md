@@ -10,7 +10,7 @@ Put the GitHub link in the first comment; LinkedIn tends to show posts with link
 
 Most AI recipe generators make one LLM call and trust the answer. I wanted to build one that doesn't.
 
-So I built **Recipe Agent**, an AI kitchen copilot that treats the LLM's output as a draft, not the final answer:
+So I built **SafePlate**, an AI kitchen copilot that treats the LLM's output as a draft, not the final answer:
 
 1️⃣ You add what's in your fridge, plus allergies, diet and a time limit
 2️⃣ The LLM drafts recipes as typed, structured output
@@ -42,4 +42,4 @@ Code in the comments 👇 Feedback welcome!
 ---
 
 **First comment:**
-GitHub: https://github.com/<your-username>/recipe-agent
+GitHub: https://github.com/<your-username>/safeplate

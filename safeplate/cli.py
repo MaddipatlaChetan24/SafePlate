@@ -1,13 +1,13 @@
 """Command-line interface.
 
-    recipe-agent suggest --ingredients "chicken, garlic, lemon" --diet keto --save
-    recipe-agent suggest --use-pantry --allergies nuts,dairy --time 30
-    recipe-agent pantry add rice onion "soy sauce"
-    recipe-agent plan --days 5 --use-pantry --export plans/
-    recipe-agent cookbook list | show 3 --servings 6 | rate 3 5 | delete 3
-    recipe-agent shop 1 4 7
-    recipe-agent history
-    recipe-agent serve            # web app on http://127.0.0.1:8000
+    safeplate suggest --ingredients "chicken, garlic, lemon" --diet keto --save
+    safeplate suggest --use-pantry --allergies nuts,dairy --time 30
+    safeplate pantry add rice onion "soy sauce"
+    safeplate plan --days 5 --use-pantry --export plans/
+    safeplate cookbook list | show 3 --servings 6 | rate 3 5 | delete 3
+    safeplate shop 1 4 7
+    safeplate history
+    safeplate serve            # web app on http://127.0.0.1:8000
 """
 
 from __future__ import annotations
@@ -206,12 +206,12 @@ def cmd_history(args, store: Store) -> None:
 def cmd_serve(args, store: Store) -> None:
     import uvicorn
 
-    console.print(f"[bold green]Recipe Agent[/bold green] running at [link]http://{args.host}:{args.port}[/link]")
-    uvicorn.run("recipe_agent.server:app", host=args.host, port=args.port, log_level="warning")
+    console.print(f"[bold green]SafePlate[/bold green] running at [link]http://{args.host}:{args.port}[/link]")
+    uvicorn.run("safeplate.server:app", host=args.host, port=args.port, log_level="warning")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="recipe-agent", description="AI recipe assistant with pantry, cookbook and meal planning")
+    p = argparse.ArgumentParser(prog="safeplate", description="AI recipe assistant with pantry, cookbook and meal planning")
     sub = p.add_subparsers(dest="command", required=True)
 
     def add_prefs(sp):
@@ -223,7 +223,7 @@ def build_parser() -> argparse.ArgumentParser:
         sp.add_argument("--time", type=int, default=0, help="Max total minutes (prep + cook)")
         sp.add_argument("--servings", type=int, default=2)
         sp.add_argument("--skill", default="", choices=["", "beginner", "intermediate", "advanced"])
-        sp.add_argument("--model", default=None, help="OpenAI model (default gpt-4o-mini or $RECIPE_AGENT_MODEL)")
+        sp.add_argument("--model", default=None, help="OpenAI model (default gpt-4o-mini or $SAFEPLATE_MODEL)")
         sp.add_argument("--demo", action="store_true", help="Run offline with placeholder recipes")
         sp.add_argument("--save", action="store_true", help="Save results to your cookbook")
         sp.add_argument("--export", metavar="DIR", help="Write Markdown files to DIR")

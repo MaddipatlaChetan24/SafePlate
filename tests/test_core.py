@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from recipe_agent.agent import RecipeAgent
-from recipe_agent.export import plan_markdown, recipe_markdown
-from recipe_agent.models import Ingredient, Nutrition, Preferences, Recipe, RecipeSet
-from recipe_agent.safety import check_recipe
-from recipe_agent.shopping import shopping_list
-from recipe_agent.storage import Store
+from safeplate.agent import RecipeAgent
+from safeplate.export import plan_markdown, recipe_markdown
+from safeplate.models import Ingredient, Nutrition, Preferences, Recipe, RecipeSet
+from safeplate.safety import check_recipe
+from safeplate.shopping import shopping_list
+from safeplate.storage import Store
 
 
 def make_recipe(name="Test", ingredients=("rice",), missing=(), minutes=(10, 20), servings=2, cuisine="Thai") -> Recipe:

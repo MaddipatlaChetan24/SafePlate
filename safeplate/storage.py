@@ -1,7 +1,7 @@
 """Local persistence: pantry, saved recipes (cookbook) and search history.
 
-Everything lives in a single SQLite file under ~/.recipe_agent (override with
-the RECIPE_AGENT_HOME environment variable).
+Everything lives in a single SQLite file under ~/.safeplate (override with
+the SAFEPLATE_HOME environment variable).
 """
 
 from __future__ import annotations
@@ -38,9 +38,9 @@ CREATE TABLE IF NOT EXISTS history (
 
 
 def default_path() -> Path:
-    home = Path(os.getenv("RECIPE_AGENT_HOME", Path.home() / ".recipe_agent"))
+    home = Path(os.getenv("SAFEPLATE_HOME", Path.home() / ".safeplate"))
     home.mkdir(parents=True, exist_ok=True)
-    return home / "recipe_agent.db"
+    return home / "safeplate.db"
 
 
 def _now() -> str:

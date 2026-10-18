@@ -1,7 +1,7 @@
 """Regenerate docs/website_preview_{dark,light}.png (the README hero image).
 
 Start a fresh demo server first, then run this script:
-    RECIPE_AGENT_HOME=$(mktemp -d) OPENAI_API_KEY= python -m recipe_agent serve --port 8766
+    SAFEPLATE_HOME=$(mktemp -d) OPENAI_API_KEY= python -m safeplate serve --port 8766
     python scripts/capture_preview.py docs
 
 Requires: pip install playwright && playwright install chromium
@@ -32,7 +32,7 @@ with sync_playwright() as p:
     for theme in ["dark", "light"]:
         ctx = browser.new_context(viewport={"width": 1440, "height": 900}, device_scale_factor=2, color_scheme=theme)
         page = ctx.new_page()
-        page.add_init_script(f"try{{localStorage.setItem('ra-theme','{theme}')}}catch(e){{}}")
+        page.add_init_script(f"try{{localStorage.setItem('sp-theme','{theme}')}}catch(e){{}}")
         page.goto(BASE)
         page.wait_for_selector(".status-card.demo, .status-card.live")
         for i in ["chicken", "garlic", "lemon", "rosemary", "potatoes", "tomatoes"]:

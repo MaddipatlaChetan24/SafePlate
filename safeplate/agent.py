@@ -41,7 +41,7 @@ class AgentResult:
 
 class RecipeAgent:
     def __init__(self, model: str | None = None, temperature: float = 0.6, max_retries: int = 2, demo: bool = False):
-        self.model = model or os.getenv("RECIPE_AGENT_MODEL", "gpt-4o-mini")
+        self.model = model or os.getenv("SAFEPLATE_MODEL", "gpt-4o-mini")
         self.temperature = temperature
         self.max_retries = max_retries
         self.demo = demo or not os.getenv("OPENAI_API_KEY")
