@@ -153,8 +153,8 @@ python -m evaluation.latency_cost
 ## Design choices and why they matter
 
 **Structured output, not regex-parsed JSON.** The model's answer is validated against
-Pydantic models via `with_structured_output`. The original prototype extracted JSON with
-a regex, which breaks silently on a stray code fence. Typed output also gives the checker
+Pydantic models via `with_structured_output`. Extracting JSON from free text with a
+regex is the common shortcut, and it breaks silently on a stray code fence. Typed output also gives the checker
 clean per-ingredient names to inspect instead of free text.
 
 **Feedback names the exact violation.** The retry message is not "try again". It lists
@@ -385,10 +385,3 @@ python -m pytest -q
 six Indian ingredient names such as *rava*, *kaju* and *curd*), the self-correction loop
 with scripted model responses (retry and give-up paths), shopping-list merging, storage
 including migrating older databases, and every API endpoint.
-
-## Acknowledgements
-
-Started from the single-file
-[Recipe Recommendation Agent](https://github.com/ashishpatel26/500-AI-Agents-Projects/tree/main/agents/17-recipe-agent)
-by ashishpatel26 (MIT). The verification loop, evaluation suite, persistence, meal
-planner, API, web app and tests were built on top of it.

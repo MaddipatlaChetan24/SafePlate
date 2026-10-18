@@ -33,8 +33,6 @@ The most interesting problem was the allergen matching. "Coconut milk" isn't dai
 
 My main takeaway: LLMs are great at drafting and bad at guaranteeing anything. Put deterministic checks around them and let the model fix its own mistakes.
 
-It started as a small open-source example from the 500-AI-Agents-Projects repo, which I rebuilt and extended into a full app.
-
 Code in the comments 👇 Feedback welcome!
 
 #AI #LLM #AIAgents #Python #FastAPI #LangChain #BuildInPublic #SideProject
