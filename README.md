@@ -15,8 +15,6 @@ that fixes its own mistakes before you ever see them.
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-40_passing-16a34a?style=flat-square&logo=pytest&logoColor=white)
 
-**[Live demo →](https://YOUR-APP.onrender.com)**
-
 <br/>
 
 <picture>
@@ -104,8 +102,8 @@ the checker is known to miss.
 ## Setup
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/safeplate.git
-cd safeplate
+git clone https://github.com/MaddipatlaChetan24/SafePlate.git
+cd SafePlate
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env     # optional: add OPENAI_API_KEY; without it the app runs in demo mode

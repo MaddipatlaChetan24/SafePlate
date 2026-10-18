@@ -42,4 +42,4 @@ Code in the comments 👇 Feedback welcome!
 ---
 
 **First comment:**
-GitHub: https://github.com/<your-username>/safeplate
+GitHub: https://github.com/MaddipatlaChetan24/SafePlate
