@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS history (
     ingredients TEXT NOT NULL,
     preferences TEXT NOT NULL,
     results TEXT NOT NULL,
+    issues INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL
 );
 """
@@ -53,6 +54,11 @@ class Store:
         self.conn = sqlite3.connect(self.path, check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA)
+        # Databases created before the `issues` column existed.
+        cols = {r["name"] for r in self.conn.execute("PRAGMA table_info(history)")}
+        if "issues" not in cols:
+            with self.conn:
+                self.conn.execute("ALTER TABLE history ADD COLUMN issues INTEGER NOT NULL DEFAULT 0")
 
     def close(self) -> None:
         self.conn.close()
@@ -134,18 +140,42 @@ class Store:
 
     # --- History ----------------------------------------------------------
 
-    def log_search(self, ingredients: list[str], prefs: Preferences, recipes: list[Recipe]) -> None:
+    def log_search(self, ingredients: list[str], prefs: Preferences, recipes: list[Recipe], issues: int = 0) -> None:
         with self.conn:
             self.conn.execute(
-                "INSERT INTO history (ingredients, preferences, results, created_at) VALUES (?, ?, ?, ?)",
-                (json.dumps(ingredients), prefs.model_dump_json(), json.dumps([r.name for r in recipes]), _now()),
+                "INSERT INTO history (ingredients, preferences, results, issues, created_at) VALUES (?, ?, ?, ?, ?)",
+                (json.dumps(ingredients), prefs.model_dump_json(), json.dumps([r.name for r in recipes]), issues, _now()),
             )
 
     def history(self, limit: int = 20) -> list[dict]:
         rows = self.conn.execute(
-            "SELECT ingredients, results, created_at FROM history ORDER BY id DESC LIMIT ?", (limit,)
+            "SELECT ingredients, results, issues, created_at FROM history ORDER BY id DESC LIMIT ?", (limit,)
         ).fetchall()
         return [
-            {"ingredients": json.loads(r["ingredients"]), "results": json.loads(r["results"]), "created_at": r["created_at"]}
+            {"ingredients": json.loads(r["ingredients"]), "results": json.loads(r["results"]),
+             "issues": r["issues"], "created_at": r["created_at"]}
             for r in rows
         ]
+
+    def activity(self, days: int = 7) -> dict:
+        """Totals plus per-day search counts for the last `days` days (oldest first)."""
+        from datetime import date, timedelta
+
+        totals = self.conn.execute(
+            "SELECT COUNT(*) AS searches, COALESCE(SUM(issues), 0) AS issues, "
+            "COALESCE(SUM(json_array_length(results)), 0) AS recipes FROM history"
+        ).fetchone()
+        today = date.today()
+        start = today - timedelta(days=days - 1)
+        counts = {
+            r["d"]: r["n"]
+            for r in self.conn.execute(
+                "SELECT substr(created_at, 1, 10) AS d, COUNT(*) AS n FROM history WHERE created_at >= ? GROUP BY d",
+                (start.isoformat(),),
+            )
+        }
+        per_day = [
+            {"date": (start + timedelta(days=i)).isoformat(), "searches": counts.get((start + timedelta(days=i)).isoformat(), 0)}
+            for i in range(days)
+        ]
+        return {"searches": totals["searches"], "issues_caught": totals["issues"], "recipes_generated": totals["recipes"], "per_day": per_day}

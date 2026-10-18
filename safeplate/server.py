@@ -90,8 +90,13 @@ def _run_payload(result: AgentResult, ingredients: list[str], store: Store) -> d
 # --- Routes ----------------------------------------------------------------
 
 @app.get("/", include_in_schema=False)
-def index():
+def landing():
     return FileResponse(WEB_DIR / "index.html")
+
+
+@app.get("/app", include_in_schema=False)
+def web_app():
+    return FileResponse(WEB_DIR / "app.html")
 
 
 @app.get("/api/status")
@@ -107,7 +112,7 @@ def suggest(req: SuggestRequest, store: Store = Depends(get_store), agent: Recip
     if liked and not req.preferences.cuisine:
         extra = f"The user has rated these cuisines highly: {', '.join(liked)}. Lean towards them for at least one recipe."
     result = agent.suggest(ingredients, req.preferences, count=req.count, extra=extra)
-    store.log_search(ingredients, req.preferences, result.recipes)
+    store.log_search(ingredients, req.preferences, result.recipes, issues=len(result.corrections))
     return _run_payload(result, ingredients, store)
 
 
@@ -195,6 +200,21 @@ def cookbook_delete(recipe_id: int, store: Store = Depends(get_store)):
     if not store.delete_recipe(recipe_id):
         raise HTTPException(404, "Recipe not found")
     return {"ok": True}
+
+
+@app.get("/api/overview")
+def overview(store: Store = Depends(get_store)):
+    rows = store.list_recipes()
+    rated = [r["rating"] for r in rows if r["rating"]]
+    cuisines = Counter(r["recipe"].cuisine for r in rows)
+    return {
+        **store.activity(7),
+        "saved": len(rows),
+        "avg_rating": round(sum(rated) / len(rated), 1) if rated else None,
+        "cuisines": [{"cuisine": c, "count": n} for c, n in cuisines.most_common(6)],
+        "pantry": len(store.pantry_list()),
+        "recent": store.history(5),
+    }
 
 
 @app.get("/api/history")

@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; width: 1200px; height: 627px; overflow: hidden; font-family: Inter, sans-serif; color: #2a1c13;
+    background: radial-gradient(circle at 0% 0%, rgba(242,179,61,.45), transparent 45%), radial-gradient(circle at 100% 20%, rgba(226,112,44,.22), transparent 45%), radial-gradient(circle at 45% 120%, rgba(59,122,75,.16), transparent 45%), #fbf6ee; }
+  .wrap { position: relative; display: grid; grid-template-columns: 510px 1fr; height: 100%; }
+  .copy { padding: 56px 0 0 60px; display: flex; flex-direction: column; gap: 18px; }
+  .logo { display: flex; align-items: center; gap: 12px; font-family: Fraunces, serif; font-weight: 700; font-size: 26px; }
+  .mark { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, #ef8a3a, #d9542b); box-shadow: 0 10px 22px -10px rgba(200,80,30,.8); }
+  .eyebrow { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 10px; border-radius: 99px; border: 1px solid #ddcfbb; background: #fffdf8; font-size: 13px; font-weight: 600; color: #6b5646; }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: #3b7a4b; box-shadow: 0 0 0 4px #e5f0e3; }
+  h1 { margin: 0; font-family: Fraunces, serif; font-size: 54px; line-height: 1.02; letter-spacing: -0.025em; font-weight: 600; }
+  h1 span { background: linear-gradient(100deg, #e8772e, #d4492f 60%, #b83a3a); -webkit-background-clip: text; color: transparent; }
+  p { margin: 0; font-size: 18px; line-height: 1.5; color: #6b5646; max-width: 430px; }
+  .stats { display: flex; gap: 10px; margin-top: 6px; }
+  .stat { padding: 10px 16px; border-radius: 14px; border: 1px solid #eadfcf; background: #fffdf8; box-shadow: 0 8px 20px -14px rgba(80,45,15,.4); }
+  .stat b { display: block; font-family: Fraunces, serif; font-size: 24px; color: #b8501c; font-weight: 600; }
+  .stat span { font-size: 12px; color: #9c8775; }
+  .shot { position: relative; }
+  .shot img { position: absolute; top: 60px; left: 6px; width: 900px; border-radius: 18px; border: 1px solid #ddcfbb; box-shadow: 0 50px 90px -30px rgba(80,45,15,.5); }
+  .shot img.second { top: 290px; left: 240px; width: 380px; border-radius: 22px; box-shadow: 0 40px 70px -20px rgba(80,45,15,.6), 0 0 0 1px #ddcfbb; }
+</style></head>
+<body><div class="wrap">
+  <div class="copy">
+    <div class="logo"><div class="mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-opacity=".55"/><path d="m9.6 12.1 1.7 1.7 3.2-3.5"/></svg></div>SafePlate</div>
+    <span class="eyebrow"><i></i>Ghar ka khana, made safe</span>
+    <h1>Cook with what you have.<br><span>Never with what you can't.</span></h1>
+    <p>Indian recipes from what's in your fridge, checked against your allergies and diet before you see them.</p>
+    <div class="stats"><div class="stat"><b>5×</b><span>fewer unsafe recipes</span></div><div class="stat"><b>98%</b><span>still delivered</span></div><div class="stat"><b>14</b><span>Indian dishes offline</span></div></div>
+  </div>
+  <div class="shot"><img src="OVERVIEW"><img class="second" src="CARD"></div>
+</div></body></html>

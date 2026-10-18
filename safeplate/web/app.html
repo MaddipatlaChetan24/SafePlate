@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SafePlate App</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/base.css" />
+  <link rel="stylesheet" href="/static/app.css" />
+  <script>try{document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||localStorage.getItem("sp-theme")||"light"}catch(e){}</script>
+</head>
+<body>
+  <div class="ambient"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <a href="/" class="brand">
+        <span class="brand-mark"><span data-icon="logo"></span></span>
+        <span><span class="brand-name">SafePlate</span><span class="brand-sub">AI kitchen copilot</span></span>
+      </a>
+
+      <div class="nav-group">
+        <div class="nav-label">Workspace</div>
+        <nav class="nav" id="nav">
+          <button class="nav-item" data-view="overview"><span data-icon="grid"></span>Overview</button>
+          <button class="nav-item" data-view="discover"><span data-icon="sparkles"></span>Discover<span class="kbd">D</span></button>
+          <button class="nav-item" data-view="planner"><span data-icon="calendar"></span>Meal Planner<span class="kbd">P</span></button>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Library</div>
+        <nav class="nav" id="nav2">
+          <button class="nav-item" data-view="cookbook"><span data-icon="book"></span>Cookbook<span class="nav-count" id="nav-cookbook-count"></span></button>
+          <button class="nav-item" data-view="pantry"><span data-icon="box"></span>Pantry<span class="nav-count" id="nav-pantry-count"></span></button>
+          <button class="nav-item" data-view="history"><span data-icon="clock"></span>History</button>
+        </nav>
+      </div>
+
+      <div class="sidebar-foot">
+        <div class="mode-card" id="mode-card">
+          <div class="mode-top"><span class="mode-dot"></span><span id="mode-title">Connecting…</span></div>
+          <div class="mode-sub" id="mode-sub"></div>
+          <div class="mode-meter"><i id="mode-meter"></i></div>
+          <div class="mode-sub" id="mode-safety"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-col">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menu-btn" aria-label="Menu"><span data-icon="menu"></span></button>
+        <div class="crumbs"><span class="muted">SafePlate</span><span class="sep">/</span><span id="crumb">Overview</span></div>
+        <button class="search-btn" id="open-palette"><span data-icon="search"></span><span>Search or jump to…</span><span class="kbd-group"><kbd>⌘</kbd><kbd>K</kbd></span></button>
+        <div class="top-actions">
+          <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme"><span data-icon="moon" class="only-dark"></span><span data-icon="sun" class="only-light"></span></button>
+          <button class="btn primary" id="new-search"><span data-icon="plus"></span>New search</button>
+          <div class="avatar" title="You">C</div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- OVERVIEW -->
+        <section class="view" id="view-overview">
+          <div class="page-head">
+            <div>
+              <h1 id="greeting">Good evening</h1>
+              <p class="muted">Here's what's cooking in your kitchen.</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" data-go="planner"><span data-icon="calendar"></span>Plan the week</button>
+              <button class="btn primary" data-quick-pantry><span data-icon="sparkles"></span>Cook from pantry</button>
+            </div>
+          </div>
+          <div class="kpis" id="kpis"></div>
+          <div class="ov-grid">
+            <div class="panel glass">
+              <div class="panel-head"><div><h3>Searches</h3><p class="muted small">Last 7 days</p></div><span class="badge" id="ov-week-total"></span></div>
+              <div class="colchart" id="chart-week"></div>
+            </div>
+            <div class="panel glass">
+              <div class="panel-head"><div><h3>Saved by cuisine</h3><p class="muted small">Your cookbook</p></div></div>
+              <div id="chart-cuisine"></div>
+            </div>
+          </div>
+          <div class="ov-grid ov-grid-b">
+            <div class="panel glass">
+              <div class="panel-head"><div><h3>Recent activity</h3><p class="muted small">Every search is checked before you see it</p></div><button class="btn sm ghost" data-go="history">View all</button></div>
+              <div id="ov-recent"></div>
+            </div>
+            <div class="panel glass spotlight glow-border">
+              <div class="spot-ico"><span data-icon="shield"></span></div>
+              <h3>Safety layer</h3>
+              <p class="muted">Every recipe passes deterministic checks for 9 allergen groups, your diet and your time limit. Anything the model gets wrong is sent back to be fixed or removed.</p>
+              <div class="spot-stats" id="ov-safety"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DISCOVER -->
+        <section class="view" id="view-discover">
+          <div class="page-head">
+            <div><h1>Discover</h1><p class="muted">Turn what's in your kitchen into dinner, checked against your allergies and diet.</p></div>
+          </div>
+          <div class="composer glass glow-border">
+            <div class="composer-top">
+              <label class="composer-label" for="ingredient-input">What's in your kitchen?</label>
+              <label class="switch-row"><input type="checkbox" id="use-pantry" /><span class="switch"></span><span class="small">Include pantry <span id="pantry-pill" class="muted"></span></span></label>
+            </div>
+            <div class="chip-input" id="chip-input"><span id="ingredient-chips" style="display:contents"></span><input id="ingredient-input" placeholder="Type an ingredient and press Enter…" autocomplete="off" /></div>
+            <div class="quick-row"><span class="muted small">Try</span><div id="quick-adds" class="quick-adds"></div></div>
+            <div class="filters">
+              <div class="fld"><label>Diet</label>
+                <select class="field" id="f-diet">
+                  <option value="">Any</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option><option value="pescatarian">Pescatarian</option>
+                  <option value="gluten-free">Gluten-free</option><option value="dairy-free">Dairy-free</option><option value="high-protein">High-protein</option>
+                </select></div>
+              <div class="fld"><label>Max time</label>
+                <select class="field" id="f-time"><option value="0">Any</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option></select></div>
+              <div class="fld"><label>Region</label><input class="field" id="f-cuisine" placeholder="Any (e.g. South Indian)" /></div>
+              <div class="fld"><label>Servings</label><div class="stepper"><button data-step="-1">−</button><span id="f-servings">2</span><button data-step="1">+</button></div></div>
+              <div class="fld"><label>Recipes</label><div class="segmented" id="f-count"><button>1</button><button class="on">3</button><button>6</button></div></div>
+            </div>
+            <div class="composer-foot">
+              <div class="allergy-row"><span class="fld-label">Allergies</span><div class="toggles" id="f-allergies"></div></div>
+              <button class="btn primary lg" id="generate-btn"><span data-icon="sparkles"></span>Generate recipes</button>
+            </div>
+          </div>
+          <div class="trace glass" id="trace" hidden></div>
+          <div class="results-layout" id="results-layout" hidden>
+            <div class="grid" id="results"></div>
+            <aside class="panel glass side" id="shopping-card"></aside>
+          </div>
+          <div class="empty" id="discover-empty">
+            <div class="empty-art">🧅🍅🫚</div>
+            <h3>Your next meal starts here</h3>
+            <p>Add a few ingredients and SafePlate will suggest recipes, verify every one against your constraints, and fix anything that doesn't fit.</p>
+          </div>
+        </section>
+
+        <!-- PLANNER -->
+        <section class="view" id="view-planner">
+          <div class="page-head"><div><h1>Meal Planner</h1><p class="muted">A varied week of dinners that shares ingredients, with one shopping list.</p></div></div>
+          <div class="panel glass planner-controls">
+            <div class="fld grow"><label>Ingredients to use up</label><input class="field" id="plan-ingredients" placeholder="e.g. spinach, paneer, tomatoes" /></div>
+            <div class="fld"><label>Days</label><div class="segmented" id="plan-days"><button>3</button><button class="on">5</button><button>7</button></div></div>
+            <label class="switch-row"><input type="checkbox" id="plan-pantry" checked /><span class="switch"></span><span class="small">Use pantry</span></label>
+            <button class="btn primary" id="plan-btn"><span data-icon="calendar"></span>Plan my week</button>
+          </div>
+          <p class="muted small hint">Uses the diet, allergy and time filters from Discover.</p>
+          <div id="plan-output"></div>
+        </section>
+
+        <!-- COOKBOOK -->
+        <section class="view" id="view-cookbook">
+          <div class="page-head"><div><h1>Cookbook</h1><p class="muted">Recipes you've saved and rated. High ratings shape future suggestions.</p></div>
+            <div class="search"><span data-icon="search"></span><input class="field" id="cookbook-search" placeholder="Search saved recipes…" /></div></div>
+          <div class="kpis" id="cookbook-stats"></div>
+          <div class="grid" id="cookbook-grid"></div>
+        </section>
+
+        <!-- PANTRY -->
+        <section class="view" id="view-pantry">
+          <div class="page-head"><div><h1>Pantry</h1><p class="muted">Ingredients you always have. Include them in any search with one click.</p></div></div>
+          <div class="panel glass">
+            <div class="pantry-add"><input class="field" id="pantry-input" placeholder="Add items, separated by commas" /><button class="btn primary" id="pantry-add-btn"><span data-icon="plus"></span>Add</button></div>
+            <div class="quick-row"><span class="muted small">Indian staples</span><div class="quick-adds" id="pantry-suggest"></div></div>
+          </div>
+          <div class="panel glass">
+            <div class="panel-head"><h3>In your pantry</h3><span class="badge" id="pantry-count"></span></div>
+            <div class="pantry-chips" id="pantry-chips"></div>
+          </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section class="view" id="view-history">
+          <div class="page-head"><div><h1>History</h1><p class="muted">Recent searches. Run any of them again.</p></div></div>
+          <div class="panel glass table-panel"><div id="history-list"></div></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Drawer -->
+  <div class="backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+  <!-- Command palette -->
+  <div class="palette-wrap" id="palette" hidden>
+    <div class="palette glass">
+      <div class="palette-input"><span data-icon="search"></span><input id="palette-input" placeholder="Type a command or search…" autocomplete="off" /><kbd>esc</kbd></div>
+      <div class="palette-list" id="palette-list"></div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+  <script src="/static/common.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

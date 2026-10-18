@@ -12,18 +12,23 @@ import re
 from .models import Preferences, Recipe
 
 ALLERGEN_KEYWORDS: dict[str, list[str]] = {
-    "nuts": ["almond", "cashew", "walnut", "pecan", "pistachio", "hazelnut", "macadamia", "peanut", "nut"],
-    "peanut": ["peanut"],
-    "dairy": ["milk", "cheese", "butter", "cream", "yogurt", "yoghurt", "ghee", "parmesan", "mozzarella", "paneer"],
-    "gluten": ["wheat", "flour", "pasta", "bread", "noodle", "barley", "rye", "couscous", "breadcrumb", "soy sauce"],
+    "nuts": ["almond", "cashew", "walnut", "pecan", "pistachio", "hazelnut", "macadamia", "peanut", "nut",
+             "kaju", "badam", "pista", "akhrot", "chironji", "moongphali"],
+    "peanut": ["peanut", "moongphali"],
+    "dairy": ["milk", "cheese", "butter", "cream", "yogurt", "yoghurt", "ghee", "parmesan", "mozzarella", "paneer",
+              "curd", "dahi", "malai", "khoya", "khoa", "chhena", "makhan"],
+    "gluten": ["wheat", "flour", "pasta", "bread", "noodle", "barley", "rye", "couscous", "breadcrumb", "soy sauce",
+               "semolina", "rava", "suji", "sooji", "maida", "atta", "roti", "naan", "pav", "chapati", "paratha", "bhature", "kulcha"],
     "egg": ["egg", "mayonnaise", "mayo"],
-    "shellfish": ["shrimp", "prawn", "crab", "lobster", "scallop", "mussel", "clam", "oyster"],
-    "fish": ["fish", "salmon", "tuna", "cod", "anchovy", "sardine", "fish sauce"],
+    "shellfish": ["shrimp", "prawn", "crab", "lobster", "scallop", "mussel", "clam", "oyster", "jhinga"],
+    "fish": ["fish", "salmon", "tuna", "cod", "anchovy", "sardine", "fish sauce",
+             "pomfret", "rohu", "surmai", "basa", "bangda", "rawas", "hilsa", "machli"],
     "soy": ["soy", "tofu", "tempeh", "edamame", "miso"],
     "sesame": ["sesame", "tahini"],
 }
 
-MEAT = ["chicken", "beef", "pork", "lamb", "bacon", "ham", "turkey", "sausage", "mutton", "duck", "veal", "prosciutto"]
+MEAT = ["chicken", "beef", "pork", "lamb", "bacon", "ham", "turkey", "sausage", "mutton", "duck", "veal", "prosciutto",
+        "keema", "murgh", "gosht"]
 SEAFOOD = ALLERGEN_KEYWORDS["fish"] + ALLERGEN_KEYWORDS["shellfish"]
 ANIMAL_PRODUCTS = ALLERGEN_KEYWORDS["dairy"] + ALLERGEN_KEYWORDS["egg"] + ["honey", "gelatin"]
 
@@ -35,7 +40,7 @@ REWRITES: dict[str, str] = {
     "oat milk": "oat", "soy milk": "soy", "rice milk": "rice", "peanut butter": "peanut",
     "almond butter": "almond", "cashew cream": "cashew", "vegan butter": "margarine",
     "vegan cheese": "plant-based alternative", "nutritional yeast": "yeast", "cream of tartar": "tartar",
-    "eggplant": "aubergine", "nutmeg": "spice",
+    "eggplant": "aubergine", "nutmeg": "spice", "pav bhaji masala": "bhaji spice mix",
 }
 
 DIET_RULES: dict[str, list[str]] = {

@@ -1,174 +1,206 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SafePlate</title>
+  <meta name="description" content="SafePlate turns what's in your fridge into recipes, verifies every ingredient against your allergies and diet, and self-corrects before you see them." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/base.css" />
+  <link rel="stylesheet" href="/static/landing.css" />
+  <script>try{document.documentElement.dataset.theme=new URLSearchParams(location.search).get("theme")||localStorage.getItem("sp-theme")||"light"}catch(e){}</script>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="5.5" stroke-opacity=".55"/><path d="m9.6 12.1 1.7 1.7 3.2-3.5"/></svg>
-        </div>
-        <div>
-          <div class="brand-name">SafePlate</div>
-          <div class="brand-sub">AI kitchen copilot</div>
-        </div>
-      </div>
+  <div class="ambient"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 
-      <nav class="nav" id="nav">
-        <button class="nav-item active" data-view="discover"><span data-icon="sparkles"></span>Discover</button>
-        <button class="nav-item" data-view="planner"><span data-icon="calendar"></span>Meal Planner</button>
-        <button class="nav-item" data-view="cookbook"><span data-icon="book"></span>Cookbook<span class="nav-count" id="nav-cookbook-count"></span></button>
-        <button class="nav-item" data-view="pantry"><span data-icon="box"></span>Pantry<span class="nav-count" id="nav-pantry-count"></span></button>
-        <button class="nav-item" data-view="history"><span data-icon="clock"></span>History</button>
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-mark"><span data-icon="logo"></span></span>SafePlate</a>
+      <nav class="nav-links">
+        <a href="#product">Product</a>
+        <a href="#how">How it works</a>
+        <a href="#results">Results</a>
+        <a href="#features">Features</a>
+        <a href="https://github.com/YOUR-USERNAME/safeplate" target="_blank" rel="noopener">GitHub</a>
       </nav>
-
-      <div class="sidebar-foot">
-        <div class="status-card" id="status-card">
-          <div class="status-dot"></div>
-          <div>
-            <div class="status-title" id="status-title">Connecting…</div>
-            <div class="status-sub" id="status-sub"></div>
-          </div>
-        </div>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-          <span data-icon="moon" class="icon-dark"></span><span data-icon="sun" class="icon-light"></span>
-          <span class="theme-label">Theme</span>
-        </button>
+      <div class="nav-cta">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme"><span data-icon="moon" class="only-dark"></span><span data-icon="sun" class="only-light"></span></button>
+        <a class="btn primary pill" href="/app">Open app <span data-icon="arrow"></span></a>
       </div>
-    </aside>
+    </div>
+  </header>
 
-    <main class="main">
-      <header class="topbar">
-        <button class="icon-btn menu-btn" id="menu-btn" aria-label="Menu"><span data-icon="menu"></span></button>
-        <div>
-          <h1 id="page-title">Discover</h1>
-          <p id="page-sub">Turn what's in your kitchen into dinner, checked against your allergies and diet.</p>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <span class="eyebrow"><span class="dot"></span>Ghar ka khana, made safe · AI that checks its own work</span>
+      <h1>Cook with what you have.<br /><span class="grad-text">Never with what you can't.</span></h1>
+      <p class="lede">SafePlate turns what's in your fridge into dal, sabzi and curry recipes, checks every ingredient against your allergies and diet with deterministic rules, and makes the AI fix its own mistakes before you ever see them.</p>
+      <div class="hero-ctas">
+        <a class="btn primary lg pill" href="#product"><span data-icon="sparkles"></span>Try the live demo</a>
+        <a class="btn lg pill" href="/app">Open the app <span data-icon="arrow"></span></a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-num display">5×</div><div class="stat-lbl">fewer unsafe recipes than trusting the LLM</div></div>
+        <div class="stat"><div class="stat-num display">98%</div><div class="stat-lbl">of requested recipes still delivered</div></div>
+        <div class="stat"><div class="stat-num display">0.57 ms</div><div class="stat-lbl">per deterministic safety check</div></div>
+        <div class="stat"><div class="stat-num display">70</div><div class="stat-lbl">held-out allergen test cases</div></div>
+      </div>
+    </section>
+
+    <!-- LIVE DEMO -->
+    <section class="section demo-wrap" id="product">
+      <div class="window glass glow-border">
+        <div class="window-bar">
+          <span class="window-title"><span data-icon="sparkles"></span>Try it live</span>
+          <span class="badge" id="mode-badge">connecting…</span>
         </div>
-      </header>
-
-      <!-- DISCOVER -->
-      <section class="view active" id="view-discover">
-        <div class="card composer">
-          <label class="composer-label">What's in your kitchen?</label>
-          <div class="chip-input" id="chip-input">
-            <div class="chips" id="ingredient-chips"></div>
-            <input id="ingredient-input" placeholder="Type an ingredient and press Enter…" autocomplete="off" />
+        <div class="demo">
+          <div class="demo-head">
+            <div>
+              <h3>What's in your kitchen?</h3>
+              <p class="muted small">Add ingredients, pick allergies, and watch the agent draft, verify and correct.</p>
+            </div>
           </div>
-          <div class="quick-row">
-            <span class="muted small">Try:</span>
-            <div id="quick-adds" class="quick-adds"></div>
-            <label class="switch-row"><input type="checkbox" id="use-pantry" /><span class="switch"></span><span class="small">Include pantry <span id="pantry-pill" class="muted"></span></span></label>
-          </div>
-
-          <div class="filters">
-            <div class="field">
-              <label>Diet</label>
-              <select id="f-diet">
-                <option value="">Any</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option>
-                <option value="pescatarian">Pescatarian</option><option value="keto">Keto</option>
-                <option value="gluten-free">Gluten-free</option><option value="dairy-free">Dairy-free</option><option value="high-protein">High-protein</option>
+          <div class="chip-input" id="d-chips-box"><span id="d-chips" style="display:contents"></span><input id="d-input" placeholder="Add an ingredient and press Enter…" autocomplete="off" /></div>
+          <div class="demo-controls">
+            <div class="demo-group">
+              <span class="ctl-label">Allergies</span>
+              <div class="toggles" id="d-allergies"></div>
+            </div>
+            <div class="demo-group">
+              <span class="ctl-label">Diet</span>
+              <select class="field" id="d-diet" style="width:160px">
+                <option value="">Any</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option><option value="pescatarian">Pescatarian</option><option value="gluten-free">Gluten-free</option>
               </select>
             </div>
-            <div class="field">
-              <label>Max time</label>
-              <select id="f-time"><option value="0">Any</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option></select>
-            </div>
-            <div class="field">
-              <label>Cuisine</label>
-              <input id="f-cuisine" placeholder="Any" />
-            </div>
-            <div class="field">
-              <label>Servings</label>
-              <div class="stepper" data-target="f-servings"><button data-step="-1">−</button><span id="f-servings">2</span><button data-step="1">+</button></div>
-            </div>
-            <div class="field">
-              <label>Recipes</label>
-              <div class="segmented" id="f-count"><button>1</button><button class="on">3</button><button>6</button></div>
-            </div>
+            <button class="btn primary lg" id="d-run"><span data-icon="sparkles"></span>Generate</button>
           </div>
-          <div class="allergy-row">
-            <span class="field-label">Allergies</span>
-            <div class="toggle-chips" id="f-allergies"></div>
-            <button class="btn primary lg" id="generate-btn"><span data-icon="sparkles"></span>Generate recipes</button>
-          </div>
+          <div class="trace demo-trace" id="d-trace" hidden></div>
+          <div class="demo-results" id="d-results"></div>
         </div>
+      </div>
+      <div class="built-with">
+        <span class="muted small">Built with</span>
+        <span>FastAPI</span><span>LangChain</span><span>OpenAI</span><span>Pydantic</span><span>SQLite</span><span>pytest</span>
+      </div>
+    </section>
 
-        <div class="trace" id="trace" hidden></div>
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how">
+      <div class="section-head">
+        <span class="kicker">How it works</span>
+        <h2>The model drafts. <span class="grad-text">The rules decide.</span></h2>
+        <p>Most AI recipe apps make one call and trust the answer. SafePlate treats the LLM as a drafting step and puts a deterministic checker between it and you.</p>
+      </div>
+      <div class="steps">
+        <div class="step glass"><div class="step-n display">01</div><div class="step-ico"><span data-icon="sparkles"></span></div><h4>Draft</h4><p>The LLM proposes recipes as typed, validated structured output, not free text.</p></div>
+        <div class="step glass"><div class="step-n display">02</div><div class="step-ico"><span data-icon="shield"></span></div><h4>Verify</h4><p>Every ingredient is checked against 9 allergen groups, your diet and your time limit.</p></div>
+        <div class="step glass"><div class="step-n display">03</div><div class="step-ico"><span data-icon="wrench"></span></div><h4>Correct</h4><p>Named violations go back to the model, which fixes only the recipes that failed.</p></div>
+        <div class="step glass"><div class="step-n display">04</div><div class="step-ico"><span data-icon="check"></span></div><h4>Deliver</h4><p>Anything still unsafe after two retries is dropped. You only ever see verified recipes.</p></div>
+      </div>
+      <div class="code glass">
+        <div class="code-bar"><span data-icon="wrench"></span>What SafePlate tells the model when a recipe fails a check</div>
+<pre class="mono"><span class="c-mute">Some recipes break my constraints:</span>
+<span class="c-red">- 'Paneer Butter Masala' contains 'cashews', which conflicts with allergy 'nuts'</span>
+<span class="c-red">- 'Hyderabadi Chicken Biryani' takes 75 min, over the 45 min limit</span>
+<span class="c-mute">Replace or fix ONLY those recipes and return the full set again.</span></pre>
+      </div>
+    </section>
 
-        <div class="results-layout" id="results-layout" hidden>
-          <div class="grid" id="results"></div>
-          <aside class="card side-card" id="shopping-card"></aside>
+    <!-- RESULTS -->
+    <section class="section" id="results">
+      <div class="section-head">
+        <span class="kicker">Measured, not claimed</span>
+        <h2>Numbers from the <span class="grad-text">evaluation suite</span></h2>
+        <p>Every figure here comes from scripts in <code class="mono">evaluation/</code> with a fixed seed. Simulated results are labelled as simulated.</p>
+      </div>
+      <div class="charts">
+        <figure class="chart-card glass">
+          <figcaption>
+            <h4>Unsafe recipes shown to the user</h4>
+            <p class="muted small">Fault-injection simulation · model error rate 30% · 2,000 requests × 3 recipes</p>
+          </figcaption>
+          <div id="chart-unsafe"></div>
+          <p class="chart-note"><span data-icon="bulb"></span>The remaining ~6% equals the share of allergens hidden inside compound ingredients like korma paste. The checker's recall is the ceiling, not the loop.</p>
+        </figure>
+        <figure class="chart-card glass">
+          <figcaption>
+            <h4>Allergen checker F1 on held-out cases</h4>
+            <p class="muted small">70 cases written after the rules were frozen · same keyword lists for every matcher</p>
+          </figcaption>
+          <div id="chart-f1"></div>
+          <p class="chart-note"><span data-icon="bulb"></span>Plain substring matching flags coconut, eggplant and nutmeg: 25 false alarms vs 5 for SafePlate.</p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="section-head">
+        <span class="kicker">Everything around the agent</span>
+        <h2>A full kitchen workflow, <span class="grad-text">not just a prompt</span></h2>
+      </div>
+      <div class="bento">
+        <div class="tile glass t-wide">
+          <div class="tile-ico"><span data-icon="calendar"></span></div>
+          <h4>Meal planner</h4>
+          <p>3–7 day dinner plans that vary cuisines and reuse perishables across the week to cut food waste.</p>
+          <div class="mini-week"><span>Mon<b>🫘</b></span><span>Tue<b>🍲</b></span><span>Wed<b>🐟</b></span><span>Thu<b>🥬</b></span><span>Fri<b>🍚</b></span></div>
         </div>
-
-        <div class="empty" id="discover-empty">
-          <div class="empty-art">🥕🧄🍋</div>
-          <h3>Your next meal starts here</h3>
-          <p>Add a few ingredients and the agent will suggest recipes, check every one against your constraints, and fix anything that doesn't fit.</p>
+        <div class="tile glass">
+          <div class="tile-ico"><span data-icon="cart"></span></div>
+          <h4>Smart shopping list</h4>
+          <p>Merges quantities across recipes and skips what's already in your pantry.</p>
         </div>
-      </section>
-
-      <!-- PLANNER -->
-      <section class="view" id="view-planner">
-        <div class="card planner-controls">
-          <div class="field grow">
-            <label>Ingredients to use up</label>
-            <input id="plan-ingredients" placeholder="e.g. spinach, eggs, tomatoes" />
-          </div>
-          <div class="field">
-            <label>Days</label>
-            <div class="segmented" id="plan-days"><button>3</button><button class="on">5</button><button>7</button></div>
-          </div>
-          <label class="switch-row"><input type="checkbox" id="plan-pantry" checked /><span class="switch"></span><span class="small">Use pantry</span></label>
-          <button class="btn primary" id="plan-btn"><span data-icon="calendar"></span>Plan my week</button>
+        <div class="tile glass">
+          <div class="tile-ico"><span data-icon="box"></span></div>
+          <h4>Pantry</h4>
+          <p>Save your staples once. Include them in any search with one toggle.</p>
         </div>
-        <p class="muted small hint">Uses the diet, allergy and time filters from Discover.</p>
-        <div id="plan-output"></div>
-      </section>
-
-      <!-- COOKBOOK -->
-      <section class="view" id="view-cookbook">
-        <div class="stats" id="cookbook-stats"></div>
-        <div class="toolbar">
-          <div class="search"><span data-icon="search"></span><input id="cookbook-search" placeholder="Search saved recipes…" /></div>
+        <div class="tile glass">
+          <div class="tile-ico"><span data-icon="star"></span></div>
+          <h4>Cookbook that learns</h4>
+          <p>Rate recipes. Cuisines you love get weighted into future suggestions.</p>
         </div>
-        <div class="grid" id="cookbook-grid"></div>
-      </section>
-
-      <!-- PANTRY -->
-      <section class="view" id="view-pantry">
-        <div class="card">
-          <div class="pantry-add">
-            <input id="pantry-input" placeholder="Add items, separated by commas" />
-            <button class="btn primary" id="pantry-add-btn"><span data-icon="plus"></span>Add</button>
-          </div>
-          <div class="quick-row"><span class="muted small">Common staples:</span><div class="quick-adds" id="pantry-suggest"></div></div>
+        <div class="tile glass">
+          <div class="tile-ico"><span data-icon="scale"></span></div>
+          <h4>Serving scaler</h4>
+          <p>Rescale any recipe from 1 to 20 servings, with macros per serving.</p>
         </div>
-        <div class="card">
-          <div class="card-head"><h3>In your pantry</h3><span class="muted small" id="pantry-count"></span></div>
-          <div class="pantry-chips" id="pantry-chips"></div>
+        <div class="tile glass t-full">
+          <div class="tile-ico"><span data-icon="terminal"></span></div>
+          <h4>API, CLI and offline demo mode</h4>
+          <p>A documented REST API, a rich terminal client, and a curated recipe library so it runs without an API key.</p>
+          <pre class="mini-term mono">$ safeplate suggest -i "paneer, spinach, tomatoes" --allergies nuts
+<span class="c-green">✓ 3 recipes verified</span> · 0 issues · 1 LLM call</pre>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- HISTORY -->
-      <section class="view" id="view-history">
-        <div class="card"><div id="history-list"></div></div>
-      </section>
-    </main>
-  </div>
+    <!-- CTA -->
+    <section class="section">
+      <div class="cta glass glow-border">
+        <h2>Your fridge. Your rules.<br /><span class="grad-text">Zero guesswork.</span></h2>
+        <p>Open the app, add what you have, and get recipes you can actually eat.</p>
+        <div class="hero-ctas"><a class="btn primary lg pill" href="/app">Open SafePlate <span data-icon="arrow"></span></a><a class="btn lg pill" href="https://github.com/YOUR-USERNAME/safeplate" target="_blank" rel="noopener"><span data-icon="github"></span>View on GitHub</a></div>
+      </div>
+    </section>
+  </main>
 
-  <div class="drawer-backdrop" id="drawer-backdrop"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="/" class="logo"><span class="logo-mark"><span data-icon="logo"></span></span>SafePlate</a>
+      <p class="muted small">MIT licensed · Not a medical device. Always read ingredient labels.</p>
+      <div class="footer-links"><a href="/app">App</a><a href="/docs">API docs</a><a href="#results">Results</a></div>
+    </div>
+  </footer>
+
   <div class="toasts" id="toasts"></div>
-
-  <script src="/static/app.js"></script>
+  <script src="/static/common.js"></script>
+  <script src="/static/landing.js"></script>
 </body>
 </html>

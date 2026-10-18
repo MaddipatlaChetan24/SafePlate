@@ -2,8 +2,9 @@
 
 # 🍽️ SafePlate
 
-Tell it what's in your fridge — get recipes verified against your allergies and diet by a
-deterministic checker, with an LLM that fixes its own mistakes before you ever see them.
+Tell it what's in your fridge and get Indian home-cooking recipes (dal, sabzi, curry,
+biryani) verified against your allergies and diet by a deterministic checker, with an LLM
+that fixes its own mistakes before you ever see them.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?style=flat-square&logo=fastapi&logoColor=white)
@@ -12,7 +13,7 @@ deterministic checker, with an LLM that fixes its own mistakes before you ever s
 ![Pydantic](https://img.shields.io/badge/Pydantic-v2-E92063?style=flat-square&logo=pydantic&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-local_storage-003B57?style=flat-square&logo=sqlite&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-32_passing-16a34a?style=flat-square&logo=pytest&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-40_passing-16a34a?style=flat-square&logo=pytest&logoColor=white)
 
 **[Live demo →](https://YOUR-APP.onrender.com)**
 
@@ -21,7 +22,7 @@ deterministic checker, with an LLM that fixes its own mistakes before you ever s
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/website_preview_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/website_preview_light.png">
-  <img src="docs/website_preview_dark.png" alt="SafePlate web app: ingredient input, live agent trace, verified recipe cards and shopping list" width="100%">
+  <img src="docs/website_preview_light.png" alt="SafePlate landing page: hero, live demo with verified Indian recipes, how it works, results and features" width="100%">
 </picture>
 
 </div>
@@ -71,7 +72,7 @@ quality.
 **Why rules rather than an LLM-as-judge.** An LLM checking an LLM shares its failure
 modes and adds a second non-deterministic, billable call. A rule-based checker is
 deterministic (same input, same verdict, every time), unit-testable, auditable line by
-line, and costs **0.37 ms per recipe** (measured below) instead of a network round-trip.
+line, and costs **0.57 ms per recipe** (measured below) instead of a network round-trip.
 Its weakness is just as clear. It can only flag what it can recognise, and this project
 measures exactly how much that limits it (see "The ceiling" below).
 
@@ -94,7 +95,8 @@ pip install -r requirements.txt
 cp .env.example .env     # optional: add OPENAI_API_KEY; without it the app runs in demo mode
 ```
 
-**Demo mode** (no API key) serves a curated library of 10 real recipes. They go through
+**Demo mode** (no API key) serves a curated library of 14 Indian dishes (Punjabi, South
+Indian, Kerala, Mumbai street food, Hyderabadi and more). They go through
 the *same* checker, scaler and shopping-list code as LLM output, so the whole app can be
 tried and tested for free. The sidebar shows which mode is active.
 
@@ -111,13 +113,14 @@ safeplate/
   export.py       Markdown export
   server.py       FastAPI backend
   cli.py          rich terminal interface
-  web/            frontend: plain HTML/CSS/JS, no build step
+  web/            landing page + app: plain HTML/CSS/JS, no build step
 evaluation/
   allergen_benchmark.py   held-out benchmark of the checker (3 matchers compared)
   self_correction_sim.py  fault-injection simulation of the full loop
   latency_cost.py         wall-clock + token-estimate measurements
 results/                  CSVs and plots produced by evaluation/
-tests/                    32 pytest tests (core logic + every API endpoint)
+tests/                    40 pytest tests (core logic + every API endpoint)
+scripts/                  demo-data seeding + screenshot capture for docs/
 ```
 
 ## Running
@@ -127,7 +130,7 @@ tests/                    32 pytest tests (core logic + every API endpoint)
 python -m safeplate serve
 
 # CLI
-python -m safeplate suggest -i "chicken, garlic, lemon" --allergies nuts --time 30
+python -m safeplate suggest -i "paneer, spinach, tomatoes" --allergies nuts --time 30
 python -m safeplate plan --days 5 --use-pantry --export exports/
 python -m safeplate cookbook list
 
@@ -145,8 +148,8 @@ a regex, which breaks silently on a stray code fence. Typed output also gives th
 clean per-ingredient names to inspect instead of free text.
 
 **Feedback names the exact violation.** The retry message is not "try again". It lists
-each problem, e.g. *"'Satay Bowl' contains 'peanut', which conflicts with allergy
-'peanut'"*, followed by *"Replace or fix ONLY those recipes and return the full set
+each problem, e.g. *"'Paneer Butter Masala' contains 'cashews', which conflicts with
+allergy 'nuts'"*, followed by *"Replace or fix ONLY those recipes and return the full set
 again."* The model fixes the specific recipe instead of regenerating the whole set and
 possibly introducing new problems in recipes that were fine.
 
@@ -212,9 +215,10 @@ score. They are listed under "Limitations". Per-case results:
 Measuring this against a real LLM would make the result depend on one model's error rate
 on one day, and it would cost money per run. Instead, `evaluation/self_correction_sim.py`
 replaces the model with a scripted **faulty model**. It returns real library recipes, but
-with probability *p* it slips a nut ingredient into each one. 80% of the injected
+with probability *p* it slips a nut ingredient into each one (starting only from the 10
+library dishes that are nut-free to begin with). 80% of the injected
 ingredients are *detectable* (named directly, e.g. "cashews"). 20% are *hidden* inside
-compound ingredients ("pesto", "praline", "satay dressing") that the checker can't see
+compound ingredients ("korma paste", "shahi gravy base", "chikki crumble", "pesto") that the checker can't see
 into. When told about a flagged recipe, the model fixes it 80% of the time. It never
 fixes what it wasn't told about.
 
@@ -225,24 +229,24 @@ stream (paired).
 
 | model error rate | configuration | unsafe recipes shown | recipes delivered | LLM calls / request |
 |---|---|---|---|---|
-| 10% | trust the LLM (no check) | 10.38% | 100.0% | 1.00 |
-| 10% | check + drop | 2.04% | 91.5% | 1.00 |
-| 10% | **check + 2 retries** | **1.92%** | **99.7%** | 1.28 |
-| 30% | trust the LLM (no check) | 30.00% | 100.0% | 1.00 |
-| 30% | check + drop | 7.65% | 75.8% | 1.00 |
-| 30% | **check + 2 retries** | **5.59%** | **99.2%** | 1.70 |
-| 50% | trust the LLM (no check) | 50.53% | 100.0% | 1.00 |
-| 50% | check + drop | 17.19% | 59.7% | 1.00 |
-| 50% | **check + 2 retries** | **10.39%** | **98.3%** | 2.02 |
+| 10% | trust the LLM (no check) | 10.62% | 100.0% | 1.00 |
+| 10% | check + drop | 2.06% | 91.3% | 1.00 |
+| 10% | **check + 2 retries** | **1.81%** | **99.7%** | 1.28 |
+| 30% | trust the LLM (no check) | 30.43% | 100.0% | 1.00 |
+| 30% | check + drop | 8.00% | 75.6% | 1.00 |
+| 30% | **check + 2 retries** | **5.85%** | **98.8%** | 1.72 |
+| 50% | trust the LLM (no check) | 49.83% | 100.0% | 1.00 |
+| 50% | check + drop | 16.11% | 59.8% | 1.00 |
+| 50% | **check + 2 retries** | **10.54%** | **98.2%** | 2.02 |
 
 <p align="center"><img src="results/self_correction_sim.png" alt="Unsafe recipes shown and recipes delivered, by configuration" width="100%"></p>
 
-**Reading it:** the loop cuts unsafe output by **about 5×** (4.9–5.4×) at every error rate while
+**Reading it:** the loop cuts unsafe output by **about 5×** (4.7–5.9×) at every error rate while
 delivering **98–99.7%** of requested recipes. Check-and-drop alone is about as safe, but
 at a 50% error rate it throws away 40% of results. The retries are what make the safety
 layer usable.
 
-**The ceiling.** The residual unsafe rate with 2 retries (1.92%, 5.59%, 10.39%) almost
+**The ceiling.** The residual unsafe rate with 2 retries (1.81%, 5.85%, 10.54%) almost
 exactly matches the **hidden-allergen rate** (20% of *p* = 2%, 6%, 10%). The loop removes
 essentially every violation the checker can see, and none of the ones it can't. **The
 system's safety is bounded by the checker's recall, not by the loop.** More retries
@@ -257,22 +261,22 @@ counts are **estimates** from payload size (~4 characters per token), not billed
 
 | configuration | LLM calls / request (at 30% error) | est. tokens / request | added app-side latency |
 |---|---|---|---|
-| trust the LLM | 1.00 | ~1,150 | none |
-| check + drop | 1.00 | ~1,150 | ~1.1 ms (3 recipes × 0.37 ms) |
-| **check + 2 retries** | **1.70** | **~2,640 (≈2.3×)** | ~1.1 ms per round |
+| trust the LLM | 1.00 | ~1,270 | none |
+| check + drop | 1.00 | ~1,270 | ~1.7 ms (3 recipes × 0.57 ms) |
+| **check + 2 retries** | **1.72** | **~2,970 (≈2.3×)** | ~1.7 ms per round |
 
-A retry costs more than a first call (≈1,220 input tokens vs ≈240), because it re-sends
+A retry costs more than a first call (≈1,340 input tokens vs ≈240), because it re-sends
 the previous answer plus the feedback. Across error rates, the estimated token
 multiplier for 2 retries is about **1.5× at 10%, 2.3× at 30% and 2.9× at 50%**. You pay
 for safety roughly in proportion to how often the model gets it wrong.
 
 | operation (measured) | p50 | p95 |
 |---|---|---|
-| safety check, 1 recipe (9 allergens + vegan + time limit) | 0.369 ms | 0.391 ms |
-| shopping list, 7 recipes merged | 0.081 ms | 0.085 ms |
-| scale recipe to 6 servings | 0.006 ms | 0.007 ms |
-| `POST /api/suggest` (demo, 3 recipes, end to end) | 2.12 ms | 2.32 ms |
-| `POST /api/plan` (demo, 7 days) | 2.91 ms | 2.99 ms |
+| safety check, 1 recipe (9 allergens + vegan + time limit) | 0.573 ms | 0.598 ms |
+| shopping list, 7 recipes merged | 0.105 ms | 0.116 ms |
+| scale recipe to 6 servings | 0.007 ms | 0.007 ms |
+| `POST /api/suggest` (demo, 3 recipes, end to end) | 3.22 ms | 3.61 ms |
+| `POST /api/plan` (demo, 7 days) | 4.26 ms | 4.49 ms |
 
 **The practically important point:** verification is sub-millisecond, while each LLM
 call is a network round-trip. The only cost that matters is the extra *calls*, and those
@@ -298,7 +302,7 @@ the test set:
 
 ## Future work
 
-**Compound-ingredient expansion.** Decompose ingredients like "pesto" into their
+**Compound-ingredient expansion.** Decompose ingredients like "korma paste" or "pesto" into their
 components before checking, using a curated table first and possibly an LLM-proposed
 decomposition that is itself verified. The simulation says this is the highest-leverage
 improvement available.
@@ -315,25 +319,42 @@ input.
 
 ## Frontend + backend app
 
-`safeplate/web/` (plain HTML/CSS/JS, no framework, no build step) is served by
-`safeplate/server.py` (FastAPI). Every view fetches live data from the API, and the
-**agent trace** bar on the Discover page shows each step of the loop as it runs:
-ingredients read, recipes generated, issues caught and self-corrected, verified.
+Two pages, served by `safeplate/server.py` (FastAPI) from `safeplate/web/` (plain
+HTML/CSS/JS, no framework, no build step):
+
+- **`/`: landing page** with a live demo that calls the real API, a how-it-works
+  section, and the evaluation results drawn as charts.
+- **`/app`: the app.** An **Overview** dashboard (activity, issues caught, favourite
+  regions), **Discover** with a live *agent trace* showing each step of the loop,
+  **Meal Planner**, **Cookbook**, **Pantry** and **History**. Recipe details open in a
+  side drawer with a serving scaler and a macro chart. **⌘K** opens a command palette.
+
+The design is warm and food-first: cream paper, saffron and turmeric accents, a serif
+display face (Fraunces), a faint rangoli dot motif, and dishes served on plates. A warm
+espresso dark mode is one click away.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/recipe-detail-light.png" alt="Recipe detail"><br><sub><b>Recipe drawer</b>: on-hand vs to-buy, method, macro chart, serving scaler</sub></td>
-    <td width="50%"><img src="docs/screenshots/meal-planner.png" alt="Meal planner"><br><sub><b>Meal planner</b>: weekly stats and a merged shopping list</sub></td>
+    <td width="50%"><img src="docs/screenshots/overview-light.png" alt="Overview dashboard"><br><sub><b>Overview</b>: activity, issues caught, favourite regions</sub></td>
+    <td width="50%"><img src="docs/screenshots/recipe-detail.png" alt="Recipe detail"><br><sub><b>Recipe drawer</b>: on-hand vs to-buy, method, macros, scaler</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/meal-planner.png" alt="Meal planner"><br><sub><b>Meal planner</b>: five regions in five days, one shopping list</sub></td>
     <td><img src="docs/screenshots/cookbook.png" alt="Cookbook"><br><sub><b>Cookbook</b>: ratings feed back into future suggestions</sub></td>
-    <td><img src="docs/screenshots/discover-dark.png" alt="Dark mode"><br><sub><b>Dark mode</b> and a responsive mobile layout</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/discover-dark.png" alt="Dark mode"><br><sub><b>Dark mode</b>: warm espresso theme</sub></td>
+    <td><img src="docs/screenshots/command-palette.png" alt="Command palette"><br><sub><b>⌘K command palette</b>: jump anywhere or search by ingredient</sub></td>
   </tr>
 </table>
 
+Screenshots are reproducible: `scripts/seed_demo.py` fills a throwaway database
+through the real API (it only backdates search timestamps so the weekly chart has data),
+and `scripts/capture_screenshots.py` regenerates every image in `docs/`.
+
 **Endpoints:** `POST /api/suggest`, `POST /api/plan`, `POST /api/scale`,
 `POST /api/export/markdown`, `GET|POST|DELETE /api/pantry`,
-`GET|POST|PATCH|DELETE /api/cookbook`, `GET /api/history`, `GET /api/status`.
+`GET|POST|PATCH|DELETE /api/cookbook`, `GET /api/history`, `GET /api/overview`, `GET /api/status`.
 Interactive docs are at `/docs`. Missing cookbook items return 404, not 500.
 
 **Deploy:** a `Dockerfile` and `render.yaml` are included. On Render, choose
@@ -347,9 +368,10 @@ on redeploy.
 python -m pytest -q
 ```
 
-32 tests: serving scaling, 14 allergen/diet edge cases (including the two regressions
-above), the self-correction loop with scripted model responses (retry and give-up
-paths), shopping-list merging, storage, and every API endpoint.
+40 tests: serving scaling, 20 allergen/diet edge cases (the two regressions above and six
+Indian ingredient names such as *rava*, *kaju* and *curd*), the self-correction loop with scripted model responses (retry and give-up
+paths), shopping-list merging, storage including migrating older databases, and every
+API endpoint.
 
 ## Acknowledgements
 

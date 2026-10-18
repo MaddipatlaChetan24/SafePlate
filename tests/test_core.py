@@ -62,6 +62,13 @@ def test_ingredient_label():
         # Regressions found by evaluation/allergen_benchmark.py
         ("anchovies", Preferences(allergies=["fish"]), True),
         ("vegan cheese", Preferences(diet="vegan"), False),
+        # Indian ingredient names
+        ("rava", Preferences(allergies=["gluten"]), True),
+        ("pav bhaji masala", Preferences(allergies=["gluten"]), False),
+        ("kaju", Preferences(allergies=["nuts"]), True),
+        ("curd", Preferences(diet="vegan"), True),
+        ("chicken keema", Preferences(diet="vegetarian"), True),
+        ("toor dal", Preferences(diet="vegan"), False),
     ],
 )
 def test_constraint_checks(ingredient, prefs, bad):
@@ -177,3 +184,19 @@ def test_markdown_export():
     md = recipe_markdown(make_recipe("Fried Rice", missing=["scallion"]))
     assert md.startswith("# Fried Rice")
     assert "You'll need to buy" in md
+
+
+def test_old_database_is_migrated(tmp_path):
+    import sqlite3
+
+    path = tmp_path / "old.db"
+    con = sqlite3.connect(path)
+    con.execute("CREATE TABLE history (id INTEGER PRIMARY KEY, ingredients TEXT NOT NULL, preferences TEXT NOT NULL, results TEXT NOT NULL, created_at TEXT NOT NULL)")
+    con.execute("INSERT INTO history (ingredients, preferences, results, created_at) VALUES ('[\"egg\"]', '{}', '[\"Egg Bhurji Pav\"]', '2026-01-01T10:00:00')")
+    con.commit()
+    con.close()
+    s = Store(path)
+    assert s.history()[0]["issues"] == 0
+    s.log_search(["dal"], Preferences(), [], issues=2)
+    assert s.activity()["issues_caught"] == 2
+    s.close()

@@ -9,7 +9,7 @@ without the result depending on any one model's mood that day.
 
 Two kinds of injected allergen:
   detectable  named directly ("cashews") — the rule checker can see it
-  hidden      inside a compound ingredient ("pesto" -> pine nuts) — it can't
+  hidden      inside a compound ingredient ("korma paste" -> cashews) — it can't
 
 Assumptions (stated, not hidden):
   * When told about a flagged recipe, the model fixes it with prob `p_fix`.
@@ -32,12 +32,13 @@ from pathlib import Path
 
 from safeplate.agent import RecipeAgent
 from safeplate.models import Ingredient, Preferences, RecipeSet
+from safeplate.safety import check_recipe
 from safeplate.samples import LIBRARY
 
 DETECTABLE = ["cashews", "walnuts", "almonds", "pistachios"]
-HIDDEN = ["pesto", "praline", "marzipan glaze", "satay dressing"]  # all contain nuts; none say "nut"
+HIDDEN = ["korma paste", "shahi gravy base", "chikki crumble", "pesto"]  # all contain nuts; none say so
 PREFS = Preferences(allergies=["nuts"])
-NUT_FREE = [r for r in LIBRARY if "peanut" not in " ".join(i.name for i in r.ingredients)]
+NUT_FREE = [r for r in LIBRARY if not check_recipe(r, PREFS)]  # start from recipes that are genuinely safe
 
 
 class FaultyModel(RecipeAgent):

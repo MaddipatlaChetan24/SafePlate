@@ -113,13 +113,13 @@ class RecipeAgent:
 # well-formed recipes built from whatever the user has.
 
 _TEMPLATES = [
-    ("One-Pan {main} Skillet", "Mediterranean", "Easy", 10, 20),
-    ("{main} Stir-Fry", "Asian", "Easy", 10, 12),
-    ("Roasted {main} Traybake", "European", "Easy", 15, 35),
-    ("{main} Curry", "Indian", "Medium", 15, 30),
-    ("{main} Tacos", "Mexican", "Easy", 15, 15),
-    ("Herbed {main} Soup", "French", "Easy", 10, 30),
-    ("{main} Grain Bowl", "Fusion", "Easy", 15, 20),
+    ("{main} Masala", "North Indian", "Easy", 10, 20),
+    ("Jeera {main} Sabzi", "Punjabi", "Easy", 10, 15),
+    ("Kadai {main}", "Punjabi", "Medium", 15, 25),
+    ("{main} Curry", "South Indian", "Medium", 15, 30),
+    ("{main} Pulao", "North Indian", "Easy", 10, 25),
+    ("{main} Thoran", "Kerala", "Easy", 10, 15),
+    ("Tawa {main}", "Mumbai Street", "Easy", 10, 15),
 ]
 
 
@@ -142,7 +142,7 @@ def _template_recipes(ingredients: list[str], prefs: Preferences, count: int, of
             prep, cook = prefs.max_minutes // 3, prefs.max_minutes - prefs.max_minutes // 3
         main = allowed[n % len(allowed)]
         used = [Ingredient(name=i, quantity=100 * prefs.servings / 2, unit="g") for i in allowed[:5]]
-        extras = [Ingredient(name="olive oil", quantity=2, unit="tbsp"), Ingredient(name="fresh parsley", quantity=1, unit="bunch")]
+        extras = [Ingredient(name="oil", quantity=2, unit="tbsp"), Ingredient(name="fresh coriander", quantity=1, unit="handful")]
         recipes.append(
             Recipe(
                 name=title.format(main=main.title()),
@@ -155,13 +155,13 @@ def _template_recipes(ingredients: list[str], prefs: Preferences, count: int, of
                 missing_ingredients=extras[1:],
                 instructions=[
                     f"Prep the {', '.join(allowed[:5])}: wash, then chop into bite-sized pieces.",
-                    "Heat the olive oil in a large pan over medium-high heat.",
-                    f"Cook the {main} until golden, about {max(cook // 2, 3)} minutes.",
-                    "Add the remaining ingredients, season with salt and pepper, and cook until tender.",
-                    "Finish with chopped parsley and serve hot.",
+                    "Heat the oil in a kadai and splutter 1 tsp cumin seeds.",
+                    f"Cook the {main} with a pinch of turmeric until golden, about {max(cook // 2, 3)} minutes.",
+                    "Add the remaining ingredients and 1 tsp garam masala, season with salt, and cook until tender.",
+                    "Finish with chopped coriander and serve hot with roti or rice.",
                 ],
                 nutrition_per_serving=Nutrition(calories=420 + 25 * n, protein_g=22, carbs_g=38, fat_g=16),
-                substitutions=["olive oil -> any neutral oil", "parsley -> coriander or basil"],
+                substitutions=["oil -> ghee (not vegan)", "garam masala -> curry powder"],
                 tips="Demo mode recipe. Set OPENAI_API_KEY to get real AI-generated recipes.",
             )
         )

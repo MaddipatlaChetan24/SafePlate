@@ -23,7 +23,8 @@ def test_suggest_respects_allergies_and_reports_usage(client):
     data = client.post("/api/suggest", json=body).json()
     assert len(data["recipes"]) == 3
     assert data["recipes"][0]["name"] == data["recommended"]
-    assert "Thai Peanut Noodle Salad" not in [r["name"] for r in data["recipes"]]
+    names = [i["name"] for r in data["recipes"] for i in r["ingredients"]]
+    assert not any(n in ("cashews", "peanuts") for n in names)  # e.g. Kanda Poha / Paneer Butter Masala excluded
     assert data["recipes"][0]["uses"]  # tofu/broccoli/garlic matched
     assert client.get("/api/history").json()[0]["ingredients"] == ["tofu", "broccoli", "garlic"]
 
@@ -54,3 +55,16 @@ def test_scale_and_plan(client):
     plan = client.post("/api/plan", json={"ingredients": ["spinach"], "days": 5}).json()
     assert [d["day"] for d in plan["days"]][:2] == ["Monday", "Tuesday"]
     assert plan["markdown"].startswith("# Meal Plan")
+
+
+def test_app_page_and_overview(client):
+    assert "SafePlate App" in client.get("/app").text
+    empty = client.get("/api/overview").json()
+    assert empty["searches"] == 0 and len(empty["per_day"]) == 7
+    client.post("/api/suggest", json={"ingredients": ["paneer", "spinach"], "count": 2})
+    client.post("/api/suggest", json={"ingredients": ["chickpeas"], "count": 3})
+    ov = client.get("/api/overview").json()
+    assert ov["searches"] == 2
+    assert ov["recipes_generated"] == 5
+    assert ov["per_day"][-1]["searches"] == 2  # both logged today
+    assert ov["recent"][0]["ingredients"] == ["chickpeas"]
