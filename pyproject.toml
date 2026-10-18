@@ -13,6 +13,8 @@ dependencies = [
     "pydantic>=2.6",
     "python-dotenv>=1.0",
     "rich>=13.7",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
 ]
 
 [project.optional-dependencies]
@@ -24,3 +26,6 @@ recipe-agent = "recipe_agent.cli:main"
 
 [tool.setuptools]
 packages = ["recipe_agent"]
+
+[tool.setuptools.package-data]
+recipe_agent = ["web/*"]

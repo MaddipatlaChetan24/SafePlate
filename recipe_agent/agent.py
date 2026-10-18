@@ -124,10 +124,19 @@ _TEMPLATES = [
 
 
 def demo_recipes(ingredients: list[str], prefs: Preferences, count: int) -> RecipeSet:
+    from .samples import match_library
+
+    recipes = match_library(ingredients, prefs, count)
+    if len(recipes) < count:
+        recipes += _template_recipes(ingredients, prefs, count - len(recipes), offset=len(recipes))
+    return RecipeSet(recipes=recipes, recommended=recipes[0].name)
+
+
+def _template_recipes(ingredients: list[str], prefs: Preferences, count: int, offset: int = 0) -> list[Recipe]:
     pool = [i for i in ingredients if i] or ["chickpeas", "rice", "onion"]
     allowed = [i for i in pool if not check_recipe(_stub(i), prefs)] or ["rice"]
     recipes = []
-    for n in range(count):
+    for n in range(offset, offset + count):
         title, cuisine, diff, prep, cook = _TEMPLATES[n % len(_TEMPLATES)]
         if prefs.max_minutes and prep + cook > prefs.max_minutes:
             prep, cook = prefs.max_minutes // 3, prefs.max_minutes - prefs.max_minutes // 3
@@ -156,7 +165,7 @@ def demo_recipes(ingredients: list[str], prefs: Preferences, count: int) -> Reci
                 tips="Demo mode recipe. Set OPENAI_API_KEY to get real AI-generated recipes.",
             )
         )
-    return RecipeSet(recipes=recipes, recommended=recipes[0].name)
+    return recipes
 
 
 def _stub(name: str) -> Recipe:

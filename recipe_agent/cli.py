@@ -7,6 +7,7 @@
     recipe-agent cookbook list | show 3 --servings 6 | rate 3 5 | delete 3
     recipe-agent shop 1 4 7
     recipe-agent history
+    recipe-agent serve            # web app on http://127.0.0.1:8000
 """
 
 from __future__ import annotations
@@ -202,6 +203,13 @@ def cmd_history(args, store: Store) -> None:
     console.print(table)
 
 
+def cmd_serve(args, store: Store) -> None:
+    import uvicorn
+
+    console.print(f"[bold green]Recipe Agent[/bold green] running at [link]http://{args.host}:{args.port}[/link]")
+    uvicorn.run("recipe_agent.server:app", host=args.host, port=args.port, log_level="warning")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="recipe-agent", description="AI recipe assistant with pantry, cookbook and meal planning")
     sub = p.add_subparsers(dest="command", required=True)
@@ -258,6 +266,11 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("history", help="Show recent searches")
     s.add_argument("--limit", type=int, default=15)
     s.set_defaults(func=cmd_history)
+
+    s = sub.add_parser("serve", help="Launch the web app")
+    s.add_argument("--host", default="127.0.0.1")
+    s.add_argument("--port", type=int, default=8000)
+    s.set_defaults(func=cmd_serve)
     return p
 
 
