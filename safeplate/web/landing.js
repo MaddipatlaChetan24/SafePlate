@@ -91,6 +91,8 @@ function renderCharts() {
 }
 
 function initLanding() {
+  // ?shot=banner renders only the hero at 1200x627 for the LinkedIn image.
+  if (new URLSearchParams(location.search).get("shot") === "banner") document.body.classList.add("shot-banner");
   hydrateIcons();
   renderDemoChips();
   renderCharts();

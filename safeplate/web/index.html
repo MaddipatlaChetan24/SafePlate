@@ -36,18 +36,40 @@
   <main>
     <!-- HERO -->
     <section class="hero">
-      <span class="eyebrow"><span class="dot"></span>Ghar ka khana, made safe · AI that checks its own work</span>
-      <h1>Cook with what you have.<br /><span class="grad-text">Never with what you can't.</span></h1>
-      <p class="lede">SafePlate turns what's in your fridge into dal, sabzi and curry recipes, checks every ingredient against your allergies and diet with deterministic rules, and makes the AI fix its own mistakes before you ever see them.</p>
-      <div class="hero-ctas">
-        <a class="btn primary lg pill" href="#product"><span data-icon="sparkles"></span>Try the live demo</a>
-        <a class="btn lg pill" href="/app">Open the app <span data-icon="arrow"></span></a>
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot"></span>Ghar ka khana, made safe</span>
+        <h1>Cook with what you have.<br /><span class="grad-text">Never with what you can't.</span></h1>
+        <p class="lede">Tell SafePlate what's in your fridge. It cooks up dal, sabzi and curry ideas, checks every ingredient against your allergies and diet, and makes the AI fix its own mistakes before you ever see them.</p>
+        <div class="hero-ctas">
+          <a class="btn primary lg pill" href="#product"><span data-icon="sparkles"></span>Try the live demo</a>
+          <a class="btn lg pill" href="/app">Open the app <span data-icon="arrow"></span></a>
+        </div>
       </div>
-      <div class="stats">
-        <div class="stat"><div class="stat-num display">5×</div><div class="stat-lbl">fewer unsafe recipes than trusting the LLM</div></div>
-        <div class="stat"><div class="stat-num display">98%</div><div class="stat-lbl">of requested recipes still delivered</div></div>
-        <div class="stat"><div class="stat-num display">0.57 ms</div><div class="stat-lbl">per deterministic safety check</div></div>
-        <div class="stat"><div class="stat-num display">70</div><div class="stat-lbl">held-out allergen test cases</div></div>
+
+      <div class="hero-visual" aria-label="A steel thali being checked for allergens">
+        <div class="spice s1">🌶️</div><div class="spice s2">🧄</div><div class="spice s3">🍋</div><div class="spice s4">🌿</div><div class="spice s5">🧅</div>
+        <div class="thali-scan" aria-hidden="true"></div>
+        <div class="thali">
+          <div class="katori" style="--a:0deg;--f:#d9682a"><span>🍛</span><i class="steam"></i></div>
+          <div class="katori" style="--a:60deg;--f:#557f2c"><span>🥬</span></div>
+          <div class="katori" style="--a:120deg;--f:#7c2f1f"><span>🫘</span></div>
+          <div class="katori" style="--a:180deg;--f:#e6ac35"><span>🍲</span><i class="steam"></i></div>
+          <div class="katori" style="--a:240deg;--f:#ece9cf"><span>🥒</span></div>
+          <div class="katori" style="--a:300deg;--f:#b8321f"><span>🌶️</span></div>
+          <div class="thali-center"><span>🍚</span></div>
+        </div>
+
+        <div class="fcard fc-fridge">
+          <div class="fc-head"><span data-icon="box"></span>In your fridge</div>
+          <div class="fc-chips"><span>paneer</span><span>palak</span><span>tomato</span><span>jeera</span></div>
+        </div>
+        <div class="fcard fc-bad">
+          <div class="fc-row"><span class="fc-ico bad"><span data-icon="x"></span></span><div><b class="strike">Paneer Butter Masala</b><small>contains cashews · nut allergy</small></div></div>
+        </div>
+        <div class="fcard fc-fix">
+          <span class="fc-tag"><span data-icon="wrench"></span>Self-corrected</span>
+          <div class="fc-row"><span class="fc-ico good"><span data-icon="check"></span></span><div><b>Palak Paneer</b><small>Nut-free · 35 min · verified</small></div></div>
+        </div>
       </div>
     </section>
 

@@ -11,7 +11,6 @@ Writes docs/website_preview_{dark,light}.png and docs/screenshots/*.png.
 from __future__ import annotations
 
 import argparse
-import tempfile
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -61,7 +60,7 @@ def main():
             c, page = ctx(theme)
             page.goto(base + "/?autorun=1")
             page.wait_for_selector(".res-row .art")
-            page.wait_for_timeout(1500)
+            page.wait_for_timeout(3500)  # hero animations settle
             full_height(page, 1440)
             page.screenshot(path=str(ROOT / "docs" / f"website_preview_{theme}.png"))
             c.close()
@@ -76,8 +75,6 @@ def main():
             run_discover(page)
             page.screenshot(path=str(SHOTS / f"discover-{theme}.png"))
             if theme == "light":
-                card = Path(tempfile.gettempdir()) / "safeplate-card.png"
-                page.locator(".rcard[data-idx='0']").screenshot(path=str(card))
                 page.click(".rcard[data-idx='0'] .rcard-title")
                 page.wait_for_timeout(600)
                 page.screenshot(path=str(SHOTS / "recipe-detail.png"))
@@ -114,15 +111,13 @@ def main():
         page.screenshot(path=str(SHOTS / "mobile.png"))
         c.close()
 
-        # LinkedIn banner (1200x627)
-        html = (ROOT / "scripts" / "banner.html").read_text()
-        html = html.replace("OVERVIEW", (SHOTS / "overview-light.png").as_uri()).replace("CARD", card.as_uri())
-        built = Path(tempfile.gettempdir()) / "safeplate-banner.html"
-        built.write_text(html)
+        # LinkedIn banner (1200x627): the landing hero itself, in banner mode
         c = browser.new_context(viewport={"width": 1200, "height": 627}, device_scale_factor=2)
+        c.add_init_script("try{localStorage.setItem('sp-theme','light')}catch(e){}")
         page = c.new_page()
-        page.goto(built.as_uri())
-        page.wait_for_timeout(1500)
+        page.on("pageerror", lambda e: errors.append(str(e)))
+        page.goto(base + "/?shot=banner")
+        page.wait_for_timeout(4000)  # let the thali and story cards finish animating in
         page.screenshot(path=str(SHOTS / "linkedin-banner.png"))
         browser.close()
 
