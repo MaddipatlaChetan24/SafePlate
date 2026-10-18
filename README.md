@@ -17,11 +17,7 @@ that fixes its own mistakes before you ever see them.
 
 <br/>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/website_preview_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/website_preview_light.png">
-  <img src="docs/website_preview_light.png" alt="SafePlate landing page: hero, live demo with verified Indian recipes, how it works, results and features" width="100%">
-</picture>
+<img src="docs/screenshots/linkedin-banner.png" alt="SafePlate: cook with what you have, never with what you can't" width="100%">
 
 </div>
 

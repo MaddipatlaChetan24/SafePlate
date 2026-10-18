@@ -5,7 +5,7 @@
     python scripts/capture_screenshots.py
 
 Requires: pip install playwright && playwright install chromium
-Writes docs/website_preview_{dark,light}.png and docs/screenshots/*.png.
+Writes docs/screenshots/*.png.
 """
 
 from __future__ import annotations
@@ -34,11 +34,6 @@ def run_discover(page, ingredients=("paneer", "spinach", "tomatoes", "onion"), a
     page.wait_for_timeout(1200)
 
 
-def full_height(page, width):
-    page.set_viewport_size({"width": width, "height": page.evaluate("document.documentElement.scrollHeight")})
-    page.wait_for_timeout(400)
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="http://127.0.0.1:8766")
@@ -55,16 +50,6 @@ def main():
             page = c.new_page()
             page.on("pageerror", lambda e: errors.append(str(e)))
             return c, page
-
-        # README hero: full landing page with the live demo already run
-        for theme in ("dark", "light"):
-            c, page = ctx(theme)
-            page.goto(base + "/?autorun=1")
-            page.wait_for_selector(".res-row .art")
-            page.wait_for_timeout(3500)  # hero animations settle
-            full_height(page, 1440)
-            page.screenshot(path=str(ROOT / "docs" / f"website_preview_{theme}.png"))
-            c.close()
 
         # App screens
         for theme in ("light", "dark"):
