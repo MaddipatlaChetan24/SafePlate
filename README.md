@@ -1,28 +1,30 @@
 <div align="center">
 
-# 🍳 RECIPE AGENT
+# 🍳 Recipe Agent
 
-**A Self-Correcting LLM Recipe Agent with Deterministic Allergen Verification**
+Tell it what's in your fridge — get recipes verified against your allergies and diet by a
+deterministic checker, with an LLM that fixes its own mistakes before you ever see them.
 
-Turns whatever is in your fridge into recipes, checks every ingredient against your
-allergies and diet with rules the model can't talk its way around, and sends the exact
-violations back to the model to fix. Unsafe recipes are **dropped, never shown**.
-
-[![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://www.langchain.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)](https://platform.openai.com/)
-[![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white)](https://docs.pydantic.dev/)
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](Dockerfile)
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?style=flat-square&logo=fastapi&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-structured_output-1C3C3C?style=flat-square&logo=langchain&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-gpt--4o--mini-412991?style=flat-square&logo=openai&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-v2-E92063?style=flat-square&logo=pydantic&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-local_storage-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-32_passing-16a34a?style=flat-square&logo=pytest&logoColor=white)
 
 **[Live demo →](https://YOUR-APP.onrender.com)**
 
-</div>
+<br/>
 
-<p align="center">
-  <img src="docs/screenshots/discover-light.png" alt="Recipe Agent: Discover page with live agent trace" width="100%">
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/website_preview_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/website_preview_light.png">
+  <img src="docs/website_preview_dark.png" alt="Recipe Agent web app: ingredient input, live agent trace, verified recipe cards and shopping list" width="100%">
+</picture>
+
+</div>
 
 ---
 
