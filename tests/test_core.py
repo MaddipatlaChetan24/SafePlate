@@ -59,6 +59,9 @@ def test_ingredient_label():
         ("soy sauce", Preferences(diet="gluten-free"), True),
         ("nutmeg", Preferences(allergies=["nuts"]), False),
         ("kiwi", Preferences(allergies=["kiwi"]), True),  # unknown allergy falls back to literal match
+        # Regressions found by evaluation/allergen_benchmark.py
+        ("anchovies", Preferences(allergies=["fish"]), True),
+        ("vegan cheese", Preferences(diet="vegan"), False),
     ],
 )
 def test_constraint_checks(ingredient, prefs, bad):

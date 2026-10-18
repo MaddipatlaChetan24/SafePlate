@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: recipe-agent
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/status
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false   # set in the Render dashboard; leave empty to run in demo mode

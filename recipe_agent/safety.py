@@ -34,7 +34,7 @@ REWRITES: dict[str, str] = {
     "coconut milk": "coconut", "coconut cream": "coconut", "almond milk": "almond",
     "oat milk": "oat", "soy milk": "soy", "rice milk": "rice", "peanut butter": "peanut",
     "almond butter": "almond", "cashew cream": "cashew", "vegan butter": "margarine",
-    "vegan cheese": "plant cheese", "nutritional yeast": "yeast", "cream of tartar": "tartar",
+    "vegan cheese": "plant-based alternative", "nutritional yeast": "yeast", "cream of tartar": "tartar",
     "eggplant": "aubergine", "nutmeg": "spice",
 }
 
@@ -53,8 +53,10 @@ def _contains(name: str, keywords: list[str]) -> str | None:
         text = text.replace(phrase, real)
     for kw in keywords:
         # Match at a word start so "ham" doesn't hit "champignon" and
-        # "nut" doesn't hit "coconut"; plurals ("eggs") still match.
-        if re.search(rf"\b{re.escape(kw)}", text):
+        # "nut" doesn't hit "coconut"; plurals ("eggs") still match, and
+        # -y words also match their -ies plural ("anchovy" -> "anchovies").
+        stem = re.escape(kw[:-1]) + "(?:y|ies)" if kw.endswith("y") else re.escape(kw)
+        if re.search(rf"\b{stem}", text):
             return kw
     return None
 

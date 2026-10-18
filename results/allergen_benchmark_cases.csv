@@ -1,0 +1,211 @@
+matcher,ingredient,constraint,expected,predicted,correct,note
+naive,cashews,allergy:nuts,True,True,True,
+naive,walnut halves,allergy:nuts,True,True,True,
+naive,pine nuts,allergy:nuts,True,True,True,
+naive,hazelnut spread,allergy:nuts,True,True,True,
+naive,pistachios,allergy:nuts,True,True,True,
+naive,almond milk,allergy:nuts,True,True,True,plant milk still a nut
+naive,peanut butter,allergy:nuts,True,True,True,
+naive,pesto,allergy:nuts,True,False,False,hidden: pesto contains pine nuts
+naive,coconut flakes,allergy:nuts,False,True,False,coconut is not a tree nut here
+naive,coconut milk,allergy:nuts,False,True,False,
+naive,nutmeg,allergy:nuts,False,True,False,
+naive,butternut squash,allergy:nuts,False,True,False,
+naive,doughnut,allergy:nuts,False,True,False,
+naive,chestnut mushrooms,allergy:nuts,False,True,False,a mushroom variety
+naive,water chestnuts,allergy:nuts,False,True,False,an aquatic vegetable
+naive,nutritional yeast,allergy:nuts,False,True,False,
+naive,butter,allergy:dairy,True,True,True,
+naive,buttermilk,allergy:dairy,True,True,True,
+naive,ghee,allergy:dairy,True,True,True,
+naive,greek yogurt,allergy:dairy,True,True,True,
+naive,milk chocolate,allergy:dairy,True,True,True,
+naive,cheddar,allergy:dairy,True,False,False,specific cheese name
+naive,ricotta,allergy:dairy,True,False,False,specific cheese name
+naive,coconut cream,allergy:dairy,False,True,False,
+naive,cream of tartar,allergy:dairy,False,True,False,
+naive,oat milk,allergy:dairy,False,True,False,
+naive,vegan butter,allergy:dairy,False,True,False,
+naive,peanut butter,allergy:dairy,False,True,False,
+naive,cocoa butter,allergy:dairy,False,True,False,plant fat
+naive,eggs,allergy:egg,True,True,True,
+naive,egg noodles,allergy:egg,True,True,True,
+naive,mayonnaise,allergy:egg,True,True,True,
+naive,eggplant,allergy:egg,False,True,False,
+naive,aubergine,allergy:egg,False,False,True,
+naive,plain flour,allergy:gluten,True,True,True,
+naive,soy sauce,allergy:gluten,True,True,True,contains wheat
+naive,breadcrumbs,allergy:gluten,True,True,True,
+naive,pasta,allergy:gluten,True,True,True,
+naive,cornbread,allergy:gluten,True,True,True,usually wheat flour
+naive,rice flour,allergy:gluten,False,True,False,
+naive,tamari,allergy:gluten,False,False,True,wheat-free soy sauce
+naive,rice noodles,allergy:gluten,False,True,False,
+naive,gluten-free pasta,allergy:gluten,False,True,False,
+naive,buckwheat,allergy:gluten,False,True,False,not wheat despite the name
+naive,shrimp,allergy:shellfish,True,True,True,
+naive,king prawns,allergy:shellfish,True,True,True,
+naive,crab sticks,allergy:shellfish,True,True,True,
+naive,fish sauce,allergy:shellfish,False,False,True,
+naive,anchovies,allergy:fish,True,False,False,
+naive,fish sauce,allergy:fish,True,True,True,
+naive,catfish fillets,allergy:fish,True,True,True,
+naive,worcestershire sauce,allergy:fish,True,False,False,hidden: contains anchovy
+naive,fishcake mix,allergy:fish,True,True,True,
+naive,chicken stock,diet:vegetarian,True,True,True,
+naive,ham hock,diet:vegetarian,True,True,True,
+naive,beef mince,diet:vegetarian,True,True,True,
+naive,bacon bits,diet:vegetarian,True,True,True,
+naive,gelatin,diet:vegetarian,True,False,False,animal-derived
+naive,champignons,diet:vegetarian,False,True,False,
+naive,graham crackers,diet:vegetarian,False,True,False,
+naive,vegetable stock,diet:vegetarian,False,False,True,
+naive,shallots,diet:vegetarian,False,False,True,
+naive,honey,diet:vegan,True,True,True,
+naive,parmesan,diet:vegan,True,True,True,
+naive,ghee,diet:vegan,True,True,True,
+naive,eggplant,diet:vegan,False,True,False,
+naive,coconut milk,diet:vegan,False,True,False,
+naive,nutritional yeast,diet:vegan,False,False,True,
+naive,almond milk,diet:vegan,False,True,False,
+naive,vegan cheese,diet:vegan,False,True,False,
+boundary,cashews,allergy:nuts,True,True,True,
+boundary,walnut halves,allergy:nuts,True,True,True,
+boundary,pine nuts,allergy:nuts,True,True,True,
+boundary,hazelnut spread,allergy:nuts,True,True,True,
+boundary,pistachios,allergy:nuts,True,True,True,
+boundary,almond milk,allergy:nuts,True,True,True,plant milk still a nut
+boundary,peanut butter,allergy:nuts,True,True,True,
+boundary,pesto,allergy:nuts,True,False,False,hidden: pesto contains pine nuts
+boundary,coconut flakes,allergy:nuts,False,False,True,coconut is not a tree nut here
+boundary,coconut milk,allergy:nuts,False,False,True,
+boundary,nutmeg,allergy:nuts,False,True,False,
+boundary,butternut squash,allergy:nuts,False,False,True,
+boundary,doughnut,allergy:nuts,False,False,True,
+boundary,chestnut mushrooms,allergy:nuts,False,False,True,a mushroom variety
+boundary,water chestnuts,allergy:nuts,False,False,True,an aquatic vegetable
+boundary,nutritional yeast,allergy:nuts,False,True,False,
+boundary,butter,allergy:dairy,True,True,True,
+boundary,buttermilk,allergy:dairy,True,True,True,
+boundary,ghee,allergy:dairy,True,True,True,
+boundary,greek yogurt,allergy:dairy,True,True,True,
+boundary,milk chocolate,allergy:dairy,True,True,True,
+boundary,cheddar,allergy:dairy,True,False,False,specific cheese name
+boundary,ricotta,allergy:dairy,True,False,False,specific cheese name
+boundary,coconut cream,allergy:dairy,False,True,False,
+boundary,cream of tartar,allergy:dairy,False,True,False,
+boundary,oat milk,allergy:dairy,False,True,False,
+boundary,vegan butter,allergy:dairy,False,True,False,
+boundary,peanut butter,allergy:dairy,False,True,False,
+boundary,cocoa butter,allergy:dairy,False,True,False,plant fat
+boundary,eggs,allergy:egg,True,True,True,
+boundary,egg noodles,allergy:egg,True,True,True,
+boundary,mayonnaise,allergy:egg,True,True,True,
+boundary,eggplant,allergy:egg,False,True,False,
+boundary,aubergine,allergy:egg,False,False,True,
+boundary,plain flour,allergy:gluten,True,True,True,
+boundary,soy sauce,allergy:gluten,True,True,True,contains wheat
+boundary,breadcrumbs,allergy:gluten,True,True,True,
+boundary,pasta,allergy:gluten,True,True,True,
+boundary,cornbread,allergy:gluten,True,False,False,usually wheat flour
+boundary,rice flour,allergy:gluten,False,True,False,
+boundary,tamari,allergy:gluten,False,False,True,wheat-free soy sauce
+boundary,rice noodles,allergy:gluten,False,True,False,
+boundary,gluten-free pasta,allergy:gluten,False,True,False,
+boundary,buckwheat,allergy:gluten,False,False,True,not wheat despite the name
+boundary,shrimp,allergy:shellfish,True,True,True,
+boundary,king prawns,allergy:shellfish,True,True,True,
+boundary,crab sticks,allergy:shellfish,True,True,True,
+boundary,fish sauce,allergy:shellfish,False,False,True,
+boundary,anchovies,allergy:fish,True,False,False,
+boundary,fish sauce,allergy:fish,True,True,True,
+boundary,catfish fillets,allergy:fish,True,False,False,
+boundary,worcestershire sauce,allergy:fish,True,False,False,hidden: contains anchovy
+boundary,fishcake mix,allergy:fish,True,True,True,
+boundary,chicken stock,diet:vegetarian,True,True,True,
+boundary,ham hock,diet:vegetarian,True,True,True,
+boundary,beef mince,diet:vegetarian,True,True,True,
+boundary,bacon bits,diet:vegetarian,True,True,True,
+boundary,gelatin,diet:vegetarian,True,False,False,animal-derived
+boundary,champignons,diet:vegetarian,False,False,True,
+boundary,graham crackers,diet:vegetarian,False,False,True,
+boundary,vegetable stock,diet:vegetarian,False,False,True,
+boundary,shallots,diet:vegetarian,False,False,True,
+boundary,honey,diet:vegan,True,True,True,
+boundary,parmesan,diet:vegan,True,True,True,
+boundary,ghee,diet:vegan,True,True,True,
+boundary,eggplant,diet:vegan,False,True,False,
+boundary,coconut milk,diet:vegan,False,True,False,
+boundary,nutritional yeast,diet:vegan,False,False,True,
+boundary,almond milk,diet:vegan,False,True,False,
+boundary,vegan cheese,diet:vegan,False,True,False,
+full,cashews,allergy:nuts,True,True,True,
+full,walnut halves,allergy:nuts,True,True,True,
+full,pine nuts,allergy:nuts,True,True,True,
+full,hazelnut spread,allergy:nuts,True,True,True,
+full,pistachios,allergy:nuts,True,True,True,
+full,almond milk,allergy:nuts,True,True,True,plant milk still a nut
+full,peanut butter,allergy:nuts,True,True,True,
+full,pesto,allergy:nuts,True,False,False,hidden: pesto contains pine nuts
+full,coconut flakes,allergy:nuts,False,False,True,coconut is not a tree nut here
+full,coconut milk,allergy:nuts,False,False,True,
+full,nutmeg,allergy:nuts,False,False,True,
+full,butternut squash,allergy:nuts,False,False,True,
+full,doughnut,allergy:nuts,False,False,True,
+full,chestnut mushrooms,allergy:nuts,False,False,True,a mushroom variety
+full,water chestnuts,allergy:nuts,False,False,True,an aquatic vegetable
+full,nutritional yeast,allergy:nuts,False,False,True,
+full,butter,allergy:dairy,True,True,True,
+full,buttermilk,allergy:dairy,True,True,True,
+full,ghee,allergy:dairy,True,True,True,
+full,greek yogurt,allergy:dairy,True,True,True,
+full,milk chocolate,allergy:dairy,True,True,True,
+full,cheddar,allergy:dairy,True,False,False,specific cheese name
+full,ricotta,allergy:dairy,True,False,False,specific cheese name
+full,coconut cream,allergy:dairy,False,False,True,
+full,cream of tartar,allergy:dairy,False,False,True,
+full,oat milk,allergy:dairy,False,False,True,
+full,vegan butter,allergy:dairy,False,False,True,
+full,peanut butter,allergy:dairy,False,False,True,
+full,cocoa butter,allergy:dairy,False,True,False,plant fat
+full,eggs,allergy:egg,True,True,True,
+full,egg noodles,allergy:egg,True,True,True,
+full,mayonnaise,allergy:egg,True,True,True,
+full,eggplant,allergy:egg,False,False,True,
+full,aubergine,allergy:egg,False,False,True,
+full,plain flour,allergy:gluten,True,True,True,
+full,soy sauce,allergy:gluten,True,True,True,contains wheat
+full,breadcrumbs,allergy:gluten,True,True,True,
+full,pasta,allergy:gluten,True,True,True,
+full,cornbread,allergy:gluten,True,False,False,usually wheat flour
+full,rice flour,allergy:gluten,False,True,False,
+full,tamari,allergy:gluten,False,False,True,wheat-free soy sauce
+full,rice noodles,allergy:gluten,False,True,False,
+full,gluten-free pasta,allergy:gluten,False,True,False,
+full,buckwheat,allergy:gluten,False,False,True,not wheat despite the name
+full,shrimp,allergy:shellfish,True,True,True,
+full,king prawns,allergy:shellfish,True,True,True,
+full,crab sticks,allergy:shellfish,True,True,True,
+full,fish sauce,allergy:shellfish,False,False,True,
+full,anchovies,allergy:fish,True,True,True,
+full,fish sauce,allergy:fish,True,True,True,
+full,catfish fillets,allergy:fish,True,False,False,
+full,worcestershire sauce,allergy:fish,True,False,False,hidden: contains anchovy
+full,fishcake mix,allergy:fish,True,True,True,
+full,chicken stock,diet:vegetarian,True,True,True,
+full,ham hock,diet:vegetarian,True,True,True,
+full,beef mince,diet:vegetarian,True,True,True,
+full,bacon bits,diet:vegetarian,True,True,True,
+full,gelatin,diet:vegetarian,True,False,False,animal-derived
+full,champignons,diet:vegetarian,False,False,True,
+full,graham crackers,diet:vegetarian,False,False,True,
+full,vegetable stock,diet:vegetarian,False,False,True,
+full,shallots,diet:vegetarian,False,False,True,
+full,honey,diet:vegan,True,True,True,
+full,parmesan,diet:vegan,True,True,True,
+full,ghee,diet:vegan,True,True,True,
+full,eggplant,diet:vegan,False,False,True,
+full,coconut milk,diet:vegan,False,False,True,
+full,nutritional yeast,diet:vegan,False,False,True,
+full,almond milk,diet:vegan,False,False,True,
+full,vegan cheese,diet:vegan,False,False,True,

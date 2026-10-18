@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipe Agent</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" x2="18" y1="17" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">Recipe Agent</div>
+          <div class="brand-sub">AI kitchen copilot</div>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item active" data-view="discover"><span data-icon="sparkles"></span>Discover</button>
+        <button class="nav-item" data-view="planner"><span data-icon="calendar"></span>Meal Planner</button>
+        <button class="nav-item" data-view="cookbook"><span data-icon="book"></span>Cookbook<span class="nav-count" id="nav-cookbook-count"></span></button>
+        <button class="nav-item" data-view="pantry"><span data-icon="box"></span>Pantry<span class="nav-count" id="nav-pantry-count"></span></button>
+        <button class="nav-item" data-view="history"><span data-icon="clock"></span>History</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="status-card" id="status-card">
+          <div class="status-dot"></div>
+          <div>
+            <div class="status-title" id="status-title">Connecting…</div>
+            <div class="status-sub" id="status-sub"></div>
+          </div>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span data-icon="moon" class="icon-dark"></span><span data-icon="sun" class="icon-light"></span>
+          <span class="theme-label">Theme</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menu-btn" aria-label="Menu"><span data-icon="menu"></span></button>
+        <div>
+          <h1 id="page-title">Discover</h1>
+          <p id="page-sub">Turn what's in your kitchen into dinner, checked against your allergies and diet.</p>
+        </div>
+      </header>
+
+      <!-- DISCOVER -->
+      <section class="view active" id="view-discover">
+        <div class="card composer">
+          <label class="composer-label">What's in your kitchen?</label>
+          <div class="chip-input" id="chip-input">
+            <div class="chips" id="ingredient-chips"></div>
+            <input id="ingredient-input" placeholder="Type an ingredient and press Enter…" autocomplete="off" />
+          </div>
+          <div class="quick-row">
+            <span class="muted small">Try:</span>
+            <div id="quick-adds" class="quick-adds"></div>
+            <label class="switch-row"><input type="checkbox" id="use-pantry" /><span class="switch"></span><span class="small">Include pantry <span id="pantry-pill" class="muted"></span></span></label>
+          </div>
+
+          <div class="filters">
+            <div class="field">
+              <label>Diet</label>
+              <select id="f-diet">
+                <option value="">Any</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option>
+                <option value="pescatarian">Pescatarian</option><option value="keto">Keto</option>
+                <option value="gluten-free">Gluten-free</option><option value="dairy-free">Dairy-free</option><option value="high-protein">High-protein</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Max time</label>
+              <select id="f-time"><option value="0">Any</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option></select>
+            </div>
+            <div class="field">
+              <label>Cuisine</label>
+              <input id="f-cuisine" placeholder="Any" />
+            </div>
+            <div class="field">
+              <label>Servings</label>
+              <div class="stepper" data-target="f-servings"><button data-step="-1">−</button><span id="f-servings">2</span><button data-step="1">+</button></div>
+            </div>
+            <div class="field">
+              <label>Recipes</label>
+              <div class="segmented" id="f-count"><button>1</button><button class="on">3</button><button>6</button></div>
+            </div>
+          </div>
+          <div class="allergy-row">
+            <span class="field-label">Allergies</span>
+            <div class="toggle-chips" id="f-allergies"></div>
+            <button class="btn primary lg" id="generate-btn"><span data-icon="sparkles"></span>Generate recipes</button>
+          </div>
+        </div>
+
+        <div class="trace" id="trace" hidden></div>
+
+        <div class="results-layout" id="results-layout" hidden>
+          <div class="grid" id="results"></div>
+          <aside class="card side-card" id="shopping-card"></aside>
+        </div>
+
+        <div class="empty" id="discover-empty">
+          <div class="empty-art">🥕🧄🍋</div>
+          <h3>Your next meal starts here</h3>
+          <p>Add a few ingredients and the agent will suggest recipes, check every one against your constraints, and fix anything that doesn't fit.</p>
+        </div>
+      </section>
+
+      <!-- PLANNER -->
+      <section class="view" id="view-planner">
+        <div class="card planner-controls">
+          <div class="field grow">
+            <label>Ingredients to use up</label>
+            <input id="plan-ingredients" placeholder="e.g. spinach, eggs, tomatoes" />
+          </div>
+          <div class="field">
+            <label>Days</label>
+            <div class="segmented" id="plan-days"><button>3</button><button class="on">5</button><button>7</button></div>
+          </div>
+          <label class="switch-row"><input type="checkbox" id="plan-pantry" checked /><span class="switch"></span><span class="small">Use pantry</span></label>
+          <button class="btn primary" id="plan-btn"><span data-icon="calendar"></span>Plan my week</button>
+        </div>
+        <p class="muted small hint">Uses the diet, allergy and time filters from Discover.</p>
+        <div id="plan-output"></div>
+      </section>
+
+      <!-- COOKBOOK -->
+      <section class="view" id="view-cookbook">
+        <div class="stats" id="cookbook-stats"></div>
+        <div class="toolbar">
+          <div class="search"><span data-icon="search"></span><input id="cookbook-search" placeholder="Search saved recipes…" /></div>
+        </div>
+        <div class="grid" id="cookbook-grid"></div>
+      </section>
+
+      <!-- PANTRY -->
+      <section class="view" id="view-pantry">
+        <div class="card">
+          <div class="pantry-add">
+            <input id="pantry-input" placeholder="Add items, separated by commas" />
+            <button class="btn primary" id="pantry-add-btn"><span data-icon="plus"></span>Add</button>
+          </div>
+          <div class="quick-row"><span class="muted small">Common staples:</span><div class="quick-adds" id="pantry-suggest"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>In your pantry</h3><span class="muted small" id="pantry-count"></span></div>
+          <div class="pantry-chips" id="pantry-chips"></div>
+        </div>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="view" id="view-history">
+        <div class="card"><div id="history-list"></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+  <div class="toasts" id="toasts"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

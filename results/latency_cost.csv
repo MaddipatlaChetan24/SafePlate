@@ -1,0 +1,13 @@
+operation,runs,p50_ms,p95_ms
+"safety check, 1 recipe (all 9 allergens + vegan + time)",2000,0.369,0.391
+scale recipe to 6 servings,2000,0.006,0.007
+"shopping list, 7 recipes merged",500,0.081,0.085
+"HTTP POST /api/suggest (demo, 3 recipes)",100,2.133,2.296
+"HTTP POST /api/plan (demo, 7 days)",50,3.000,3.172
+HTTP POST /api/scale,200,0.911,0.986
+HTTP GET /api/cookbook,200,0.850,0.889
+
+# estimated tokens (~4 chars/token)
+# input_first_call,242
+# output_per_call,906
+# input_retry_call,1223

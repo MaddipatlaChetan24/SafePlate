@@ -1,0 +1,4 @@
+matcher,n,accuracy,precision,recall,f1,false_positives,false_negatives
+naive,70,0.557,0.569,0.846,0.680,25,6
+boundary,70,0.657,0.660,0.795,0.721,16,8
+full,70,0.843,0.889,0.821,0.853,4,7
