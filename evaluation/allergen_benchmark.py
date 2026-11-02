@@ -1,13 +1,4 @@
-"""Held-out benchmark for the allergen / diet matcher in safeplate/safety.py.
-
-The cases below were written AFTER safety.py was finished and were not used to
-tune it — the rules were frozen before this file was run for the first time.
-(The 12 cases in tests/test_core.py are the "dev set" the rules were written
-against.) Failures are reported as found, not patched to make the table look
-better.
-
-Three matchers are compared using the exact same keyword lists:
-  naive      plain substring match       
+tch       
 
 
 import csv
