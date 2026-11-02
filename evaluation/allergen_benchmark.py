@@ -14,7 +14,6 @@ Three matchers are compared using the exact same keyword lists:
 Run:  python -m evaluation.allergen_benchmark
 """
 
-from __future__ import annotations
 
 import csv
 import re
