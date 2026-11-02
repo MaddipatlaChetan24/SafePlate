@@ -7,12 +7,7 @@ against.) Failures are reported as found, not patched to make the table look
 better.
 
 Three matchers are compared using the exact same keyword lists:
-  naive      plain substring match               ("nut" in "coconut" -> True)
-  boundary   match only at a word start          (regex \\bkeyword)
-  full       word-boundary + phrase rewrites     (what the app actually ships)
-
-Run:  python -m evaluation.allergen_benchmark
-"""
+  naive      plain substring match       
 
 
 import csv
