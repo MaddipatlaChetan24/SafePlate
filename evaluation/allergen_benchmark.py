@@ -1,6 +1,3 @@
-tch       
-
-
 import csv
 import re
 from pathlib import Path
