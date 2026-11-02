@@ -1,3 +1,21 @@
+"""Held-out benchmark for the allergen / diet matcher in safeplate/safety.py.
+
+The cases below were written AFTER safety.py was finished and were not used to
+tune it — the rules were frozen before this file was run for the first time.
+(The 12 cases in tests/test_core.py are the "dev set" the rules were written
+against.) Failures are reported as found, not patched to make the table look
+better.
+
+Three matchers are compared using the exact same keyword lists:
+  naive      plain substring match               ("nut" in "coconut" -> True)
+  boundary   match only at a word start          (regex \\bkeyword)
+  full       word-boundary + phrase rewrites     (what the app actually ships)
+
+Run:  python -m evaluation.allergen_benchmark
+"""
+
+from __future__ import annotations
+
 import csv
 import re
 from pathlib import Path
@@ -23,6 +41,16 @@ CASES: list[tuple[str, str, str, bool, str]] = [
     ("chestnut mushrooms", "allergy", "nuts", False, "a mushroom variety"),
     ("water chestnuts", "allergy", "nuts", False, "an aquatic vegetable"),
     ("nutritional yeast", "allergy", "nuts", False, ""),
+    # --- dairy
+    ("butter", "allergy", "dairy", True, ""),
+    ("buttermilk", "allergy", "dairy", True, ""),
+    ("ghee", "allergy", "dairy", True, ""),
+    ("greek yogurt", "allergy", "dairy", True, ""),
+    ("milk chocolate", "allergy", "dairy", True, ""),
+    ("cheddar", "allergy", "dairy", True, "specific cheese name"),
+    ("ricotta", "allergy", "dairy", True, "specific cheese name"),
+    ("coconut cream", "allergy", "dairy", False, ""),
+    ("cream of tartar", "allergy", "dairy", False, ""),
     ("oat milk", "allergy", "dairy", False, ""),
     ("vegan butter", "allergy", "dairy", False, ""),
     ("peanut butter", "allergy", "dairy", False, ""),
